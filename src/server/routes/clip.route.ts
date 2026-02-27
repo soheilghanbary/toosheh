@@ -10,6 +10,8 @@ const generateCode = customAlphabet('0123456789', 6)
 const calculateExpiry = (expiration: string): Date => {
   const now = new Date()
   switch (expiration) {
+    case '5m':
+      return new Date(now.getTime() + 5 * 60000)
     case '30m':
       return new Date(now.getTime() + 30 * 60000)
     case '1h':
