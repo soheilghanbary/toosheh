@@ -1,100 +1,86 @@
-# the modern NextJS starter for all developers
+# 📦 Toosheh (Temporary Cloud Clipboard)
 
-A modern, scalable boilerplate for full-stack web apps using:
+**Toosheh** is a high-performance, minimalist web application designed for seamless text and file sharing via temporary cloud clipboards. It enables users to sync data across devices using a unique 6-digit tracking code, featuring advanced security protocols and automated expiration logic.
 
-- **Next.js** (frontend & API routes)
-- **Better Auth** (authentication)
-- **Drizzle ORM** (database)
-- **TypeScript**
-- **React**
-- **TailwindCSS**
-- **Hono.js** (API framework)
+## ✨ Features
 
----
+* **Dynamic Syncing**: Create temporary "clips" for text or code snippets.
+* **Smart Tracking**: Access data via a unique 6-digit numeric code.
+* **Deep Linking**: Full integration with `nuqs` for URL-based state management.
+* **Advanced Security**:
+* **One-Time Access**: Automatically deletes (burns) the clip after the first successful view.
+* **Password Protection**: Secure sensitive data with encrypted password layers.
 
-## Features
 
-- Full-stack Next.js (frontend & backend)
-- Pre-configured authentication (Better Auth)
-- Drizzle ORM for database
-- TailwindCSS for styling
-- TypeScript throughout
+* **Smart Expiration**: User-defined availability (30m, 1h, 24h).
+* **Native Experience**:
+* Smooth mobile-first UI powered by **Framer Motion**.
+* **Web Share API** integration for native system sharing.
+* Automated QR Code generation for instant mobile handoff.
 
----
 
-## Requirements
 
-- **Bun** >= 1.0.x or **Node.js** >= 20.x
-- **bun** or **pnpm**
-- **PostgreSQL** (or Drizzle-supported DB)
+## 🛠 Tech Stack
 
----
+### Frontend
 
-## Getting Started
+* **Framework**: [Next.js 16.1 (App Router)](https://nextjs.org/)
+* **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+* **Animations**: [Motion](https://www.motion.dev/)
+* **State Management**: [React Hook Form](https://react-hook-form.com/) & [TanStack Query](https://tanstack.com/query/latest)
+* **URL State**: [nuqs](https://nuqs.47ng.com/)
+* **Validation**: [Zod](https://zod.dev/)
 
+### Backend & Database
+
+* **API Framework**: [Hono](https://hono.dev/)
+* **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+* **Database**: [PostgreSQL](https://www.postgresql.org/)
+* **ID Generation**: [NanoID](https://github.com/ai/nanoid)
+
+## 🚀 Key Implementations
+
+* **Isomorphic Scroll Lock**: Custom implementation preventing background scrolling during modal interactions, optimized for SSR.
+* **URL-Sync Tracking**: Real-time synchronization between the UI state and browser search parameters for persistent sessions.
+* **Atomic View Counting**: Server-side atomic SQL increments to ensure data integrity during concurrent access.
+* **Mobile-First Modals**: Drawer-style sheets designed for optimal ergonomics on touch devices.
+
+## 🏁 Getting Started
+
+1. **Clone the repository**:
 ```bash
-git clone https://github.com/soheilghanbary/naas.git
-cd naas
-bun install        # or: pnpm install
-cp .env.example .env
-# Edit .env with your settings
-bun drizzle-kit migrate:dev
-bun run dev        # or: pnpm dev
-```
-
----
-
-## Project Structure
+git clone https://github.com/soheilghanbary/toosheh.git
 
 ```
-naas/
-├── biome.json              # Biome linter/formatter config
-├── bun.lockb               # Bun lockfile
-├── components.json         # UI components config
-├── drizzle.config.ts       # Drizzle ORM config
-├── next.config.ts          # Next.js config
-├── package.json            # Project manifest
-├── postcss.config.mjs      # PostCSS config
-├── tsconfig.json           # TypeScript config
-├── README.md
-├── public/                 # Static assets (favicon, manifest, etc)
-├── server/                 # Backend logic (auth, db, API)
-│   ├── auth.ts
-│   ├── main.ts
-│   └── db/
-│       ├── index.ts
-│       └── schema.ts
-├── src/                    # Frontend & shared code
-│   ├── middleware.ts       # Next.js middleware
-│   ├── app/                # App directory (routes, pages)
-│   │   ├── layout.tsx
-│   │   ├── not-found.tsx
-│   │   ├── page.tsx
-│   │   └── api/
-│   │       ├── [[...route]]/route.ts
-│   │       └── auth/[...all]/route.ts
-│   ├── components/         # UI & common components
-│   │   ├── common/
-│   │   ├── providers/
-│   │   └── ui/
-│   ├── config/             # App config (site.ts)
-│   ├── lib/                # Utilities (api.ts, utils.ts)
-│   └── styles/             # CSS (app.css, theme.css)
+
+
+2. **Install dependencies**:
+```bash
+pnpm install
+
 ```
 
+
+3. **Environment Setup**:
+Create a `.env` file in the root directory and provide your `DATABASE_URL`.
+4. **Database Migration**:
+Push the schema to your PostgreSQL instance:
+```bash
+pnpm dlx drizzle-kit push
+
+```
+
+
+5. **Run Development Server**:
+```bash
+pnpm dev
+
+```
 ---
+Run the development server:
+```bash
+open: http://localhost:3000
 
-## Scripts
-
-- `dev` – Start dev server
-- `build` – Build for production
-- `start` – Run production build
-- `lint` – Lint code (Biome)
-- `db:push` – Push DB migrations
-- `db:gen` – Generate Drizzle types
-
+```
 ---
-
-## License
-
-MIT © [Soheil Ghanbary](https://github.com/soheilghanbary)
+Done! 🎉
