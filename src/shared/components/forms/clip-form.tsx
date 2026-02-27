@@ -123,8 +123,6 @@ export const ClipForm = () => {
                     <SelectItem value="1h">۱ ساعت</SelectItem>
                     <SelectItem value="12h">۱۲ ساعت</SelectItem>
                     <SelectItem value="24h">۲۴ ساعت</SelectItem>
-                    <SelectItem value="3d">۳ روز</SelectItem>
-                    <SelectItem value="7d">۷ روز</SelectItem>
                   </SelectContent>
                 </Select>
               )}

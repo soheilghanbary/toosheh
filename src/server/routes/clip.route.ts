@@ -26,10 +26,6 @@ const calculateExpiry = (expiration: string): Date => {
       return new Date(now.getTime() + 12 * msInHour)
     case '24h':
       return new Date(now.getTime() + 24 * msInHour)
-    case '3d':
-      return new Date(now.getTime() + 3 * msInDay)
-    case '7d':
-      return new Date(now.getTime() + 7 * msInDay)
     default:
       return new Date(now.getTime() + 1 * msInHour) // پیش‌فرض منطقی
   }
