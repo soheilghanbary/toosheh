@@ -11,7 +11,6 @@ const calculateExpiry = (expiration: string): Date => {
   const now = new Date()
   const msInMinute = 60 * 1000
   const msInHour = 60 * msInMinute
-  const msInDay = 24 * msInHour
 
   switch (expiration) {
     case '5m':

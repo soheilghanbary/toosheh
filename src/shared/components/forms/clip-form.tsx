@@ -63,7 +63,7 @@ export const ClipForm = () => {
       type: 'text',
       title: '',
       content: '',
-      expiration: '24h',
+      expiration: '10m',
       hasPassword: false,
       password: '',
       isOneTime: false,
