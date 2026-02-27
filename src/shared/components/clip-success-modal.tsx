@@ -84,12 +84,12 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
                   className="text-muted-foreground"
                   variant="outline"
                   onClick={() => {
-                    navigator.clipboard.writeText(shareLink)
+                    navigator.clipboard.writeText(data.code)
                     toast('لینک کپی شد')
                   }}
                 >
                   <CopyIcon className="text-primary" />
-                  کپی لینک
+                  کپی کد
                 </Button>
                 <Button
                   onClick={handleShare}
