@@ -4,6 +4,7 @@ import type { PropsWithChildren } from 'react'
 import Providers from '@/components/providers'
 import { appConfig } from '@/config'
 import { font } from '@/shared/assets/font'
+import { AppNavigation } from '@/shared/components/app-navigation'
 
 export const metadata: Metadata = {
   title: {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <main className="sm:container-sm min-h-dvh w-full border-0 bg-background sm:border-x">
             {children}
           </main>
+          <AppNavigation />
         </Providers>
       </body>
     </html>
