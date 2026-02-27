@@ -29,7 +29,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body className={`${font.className} antialiased`}>
         <Providers>
-          <main className="sm:container-sm min-h-dvh w-full border-0 bg-background md:border-x">
+          <main className="sm:container-sm min-h-dvh w-full border-0 bg-background sm:border-x">
             {children}
           </main>
         </Providers>
