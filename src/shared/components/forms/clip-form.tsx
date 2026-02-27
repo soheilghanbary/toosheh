@@ -118,9 +118,13 @@ export const ClipForm = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="5m">۵ دقیقه</SelectItem>
+                    <SelectItem value="10m">۱۰ دقیقه</SelectItem>
                     <SelectItem value="30m">۳۰ دقیقه</SelectItem>
                     <SelectItem value="1h">۱ ساعت</SelectItem>
+                    <SelectItem value="12h">۱۲ ساعت</SelectItem>
                     <SelectItem value="24h">۲۴ ساعت</SelectItem>
+                    <SelectItem value="3d">۳ روز</SelectItem>
+                    <SelectItem value="7d">۷ روز</SelectItem>
                   </SelectContent>
                 </Select>
               )}

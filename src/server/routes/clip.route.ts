@@ -9,17 +9,29 @@ const generateCode = customAlphabet('0123456789', 6)
 
 const calculateExpiry = (expiration: string): Date => {
   const now = new Date()
+  const msInMinute = 60 * 1000
+  const msInHour = 60 * msInMinute
+  const msInDay = 24 * msInHour
+
   switch (expiration) {
     case '5m':
-      return new Date(now.getTime() + 5 * 60000)
+      return new Date(now.getTime() + 5 * msInMinute)
+    case '10m':
+      return new Date(now.getTime() + 10 * msInMinute)
     case '30m':
-      return new Date(now.getTime() + 30 * 60000)
+      return new Date(now.getTime() + 30 * msInMinute)
     case '1h':
-      return new Date(now.getTime() + 60 * 60000)
+      return new Date(now.getTime() + 1 * msInHour)
+    case '12h':
+      return new Date(now.getTime() + 12 * msInHour)
     case '24h':
-      return new Date(now.getTime() + 24 * 60 * 60000)
+      return new Date(now.getTime() + 24 * msInHour)
+    case '3d':
+      return new Date(now.getTime() + 3 * msInDay)
+    case '7d':
+      return new Date(now.getTime() + 7 * msInDay)
     default:
-      return new Date(now.getTime() + 24 * 60 * 60000)
+      return new Date(now.getTime() + 1 * msInHour) // پیش‌فرض منطقی
   }
 }
 
