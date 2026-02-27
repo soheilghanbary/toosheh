@@ -1,4 +1,4 @@
-import { and, eq, gt } from 'drizzle-orm'
+import { and, eq, gt, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { customAlphabet } from 'nanoid'
 import { db } from '@/server/db'
@@ -64,19 +64,17 @@ clipRoutes
     const code = body.code
     // پیدا کردن کلیپ فعال که منقضی نشده باشد
     const result = await db
-      .select()
-      .from(clip)
-      .where(
-        and(
-          eq(clip.code, code),
-          gt(clip.expiresAt, now) // فقط کلیپ‌هایی که زمان انقضایشان نرسیده
-        )
-      )
-      .limit(1)
+      .update(clip)
+      .set({
+        views: sql`${clip.views} + 1`,
+      })
+      .where(and(eq(clip.code, code), gt(clip.expiresAt, now)))
+      .returning()
+
     const targetClip = result[0]
     if (!targetClip) {
       return c.json(
-        { success: false, message: 'کلیپ برد یافت نشد یا منقضی شده است' },
+        { success: false, message: 'توشه یافت نشد یا منقضی شده است' },
         404
       )
     }

@@ -39,7 +39,9 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
     }
   }, [isOpen])
 
-  const shareLink = data ? `https://toosheh.vercel.app/track/${data.code}` : ''
+  const shareLink = data
+    ? `${process.env.NEXT_PUBLIC_URL}/track?code=${data.code}`
+    : ''
 
   const handleShare = async () => {
     if (!data) return

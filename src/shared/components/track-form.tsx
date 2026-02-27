@@ -2,10 +2,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { parseAsString, useQueryState } from 'nuqs'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import * as z from 'zod'
+import { z } from 'zod'
 import { TrackClipModal } from '@/shared/components/track-modal'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
@@ -22,35 +23,46 @@ type TrackValues = z.infer<typeof trackSchema>
 
 export const TrackForm = () => {
   const [trackData, setTrackData] = useState(null)
-  const { register, handleSubmit, reset, watch } = useForm<TrackValues>({
-    resolver: zodResolver(trackSchema),
-    defaultValues: { code: '' },
-  })
+  const [queryCode, setQueryCode] = useQueryState(
+    'code',
+    parseAsString.withDefault('').withOptions({ shallow: true })
+  )
+  const { register, handleSubmit, reset, setValue, watch } =
+    useForm<TrackValues>({
+      resolver: zodResolver(trackSchema),
+      defaultValues: { code: queryCode },
+    })
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (data: TrackValues) => {
+    mutationFn: async (code: string) => {
       const res = await fetch('/api/clip/track', {
         method: 'POST',
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
       })
       const result = await res.json()
-      if (!res.ok) throw new Error(result.message || 'خطایی رخ داده است')
+      if (!res.ok) throw new Error(result.message || 'یافت نشد')
       return result
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = async (values: TrackValues) => {
     try {
-      const result = await mutateAsync(data)
-      if (result.success) setTrackData(result.data)
+      const result = await mutateAsync(values.code)
+      if (result.success) {
+        setTrackData(result.data)
+        // همگام‌سازی URL با کد وارد شده
+        setQueryCode(values.code)
+      }
     } catch (_err) {
       toast.error('کد منقضی شده یا یافت نشد')
+      setQueryCode(null) // پاک کردن URL در صورت خطا
     }
-  })
+  }
 
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Paper className="grid gap-y-3">
           <Input
             maxLength={6}
@@ -76,7 +88,8 @@ export const TrackForm = () => {
         data={trackData}
         onClose={() => {
           setTrackData(null)
-          reset() // پاک کردن فرم بعد از بستن مدال
+          setQueryCode(null) // پاک کردن کد از URL هنگام بستن
+          reset()
         }}
       />
     </>

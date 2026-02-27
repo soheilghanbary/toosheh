@@ -51,6 +51,7 @@ export default () => {
               title="همگام سازی اسناد و فایل‌ها"
               description="فضای ایمن برای همگام سازی ایمن فایل‌ها و اسناد در سایر دستگاه ها"
               svg={<ZipFile />}
+              isComingSoon
             />
             <FeatureCard
               link="/"

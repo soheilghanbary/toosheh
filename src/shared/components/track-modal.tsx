@@ -74,7 +74,7 @@ export const TrackClipModal = ({ isOpen, data, onClose }: Props) => {
               </Button>
             </Paper>
             <Paper>
-              <p className="text-center font-medium text-muted-foreground text-sm/5">
+              <p className="text-center font-medium text-sm/5">
                 اطلاعات کلیپ برد
               </p>
               <ul className="grid text-foreground/75 text-xs [&>li]:border-b [&>li]:py-3">
