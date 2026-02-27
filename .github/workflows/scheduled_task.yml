@@ -1,0 +1,10 @@
+name: Cleanup Cron
+on:
+  schedule:
+    - cron: '*/5 * * * *' # هر ۵ دقیقه
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Cleanup API
+        run: curl -X GET https://toosheh.vercel.app/api/clip/cleanup -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
