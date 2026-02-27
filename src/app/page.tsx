@@ -9,7 +9,7 @@ import { Button } from '@/shared/components/ui/button'
 
 export default () => {
   return (
-    <section className="p-4 pb-20">
+    <section className="p-4">
       <header className="-m-4 flex max-h-28 flex-col gap-3 rounded-b-2xl bg-primary p-4">
         <div className="flex items-center justify-between gap-2">
           <p className="font-medium text-sm text-white">
