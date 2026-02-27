@@ -63,7 +63,7 @@ export const TrackClipModal = ({ isOpen, data, onClose }: Props) => {
               </div>
               <Button
                 className="w-full"
-                variant="secondary"
+                variant="default"
                 onClick={() => {
                   navigator.clipboard.writeText(data.content)
                   toast('محتوا کپی شد')
