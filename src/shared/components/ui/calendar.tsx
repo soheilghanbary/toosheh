@@ -5,13 +5,10 @@ import {
   ChevronRightIcon,
 } from 'lucide-react'
 import * as React from 'react'
-import {
-  type DayButton,
-  DayPicker,
-  getDefaultClassNames,
-} from 'react-day-picker'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { type DayButton, getDefaultClassNames } from 'react-day-picker'
+import { DayPicker } from 'react-day-picker/persian'
+import { Button, buttonVariants } from '@/shared/components/ui/button'
+import { cn } from '@/shared/lib/utils'
 
 function Calendar({
   className,
@@ -31,7 +28,7 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'group/calendar bg-background in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent p-3 [--cell-size:--spacing(8)]',
+        'group/calendar bg-background p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className
@@ -39,7 +36,9 @@ function Calendar({
       captionLayout={captionLayout}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString('default', { month: 'short' }),
+          date.toLocaleString('fa-IR', { month: 'long' }),
+        formatCaption: (date) =>
+          `${date.toLocaleString('fa-IR', { month: 'long' })} ${date.getFullYear()}`,
         ...formatters,
       }}
       classNames={{
@@ -102,10 +101,7 @@ function Calendar({
           defaultClassNames.week_number
         ),
         day: cn(
-          'relative w-full h-full p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none',
-          props.showWeekNumber
-            ? '[&:nth-child(2)[data-selected=true]_button]:rounded-l-md'
-            : '[&:first-child[data-selected=true]_button]:rounded-l-md',
+          'relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none',
           defaultClassNames.day
         ),
         range_start: cn(
@@ -114,10 +110,7 @@ function Calendar({
         ),
         range_middle: cn('rounded-none', defaultClassNames.range_middle),
         range_end: cn('rounded-r-md bg-accent', defaultClassNames.range_end),
-        today: cn(
-          'bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none',
-          defaultClassNames.today
-        ),
+        today: cn('bg-blue/10 text-blue rounded-md', defaultClassNames.today),
         outside: cn(
           'text-muted-foreground aria-selected:text-muted-foreground',
           defaultClassNames.outside

@@ -63,8 +63,8 @@ function InputGroupAddon({
   return (
     <div
       role="group"
-      data-slot="input-group-addon"
       data-align={align}
+      data-slot="input-group-addon"
       className={cn(inputGroupAddonVariants({ align }), className)}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest('button')) {

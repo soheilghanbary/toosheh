@@ -1,14 +1,9 @@
 import '@/styles/app.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import type { PropsWithChildren } from 'react'
 import Providers from '@/components/providers'
 import { appConfig } from '@/config'
-
-const font = Inter({
-  weight: ['400', '500', '600', '700', '800', '900'],
-  subsets: ['latin-ext'],
-})
+import { font } from '@/shared/assets/font'
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <head>
         <link rel="theme-color" href="#000000" />
         <link rel="manifest" href="/manifest.json" />
@@ -33,7 +28,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
         />
       </head>
       <body className={`${font.className} antialiased`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className="md:container-sm min-h-dvh w-full border-0 border-border/50 bg-background md:border-x">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   )

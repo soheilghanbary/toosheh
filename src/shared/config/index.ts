@@ -1,6 +1,6 @@
 export const appConfig = {
-  name: 'NaaS',
-  title: 'NaaS',
-  version: '2.5',
-  description: 'Modern Full Stack: A Simplified Approach',
+  name: 'Toosheh',
+  title: 'Toosheh',
+  version: '1.0',
+  description: 'Secure & Fast Cloud Clipboard',
 }

@@ -1,5 +1,13 @@
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-
+import {
+  boolean,
+  jsonb,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from 'drizzle-orm/pg-core'
 // sessions schema
 export const session = pgTable('session', {
   id: text('id').primaryKey(),
@@ -52,4 +60,19 @@ export const user = pgTable('user', {
   image: text('image'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
+})
+
+export const clipTypeEnum = pgEnum('clip_type', ['text', 'file', 'code'])
+
+export const clip = pgTable('clip', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  type: clipTypeEnum('type').default('text').notNull(),
+  code: varchar('code', { length: 6 }).notNull().unique(),
+  title: varchar('title', { length: 255 }).notNull(),
+  content: jsonb('content').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  hasPassword: boolean('has_password').default(false).notNull(),
+  password: varchar('password', { length: 255 }),
+  isOneTime: boolean('is_one_time').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 })

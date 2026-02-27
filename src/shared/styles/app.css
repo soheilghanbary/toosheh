@@ -25,11 +25,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+  --color-success: var(--success);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -45,6 +42,9 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+
+  --container-sm: 394px;
+  --shadow-card: 0 3px 15px -10px rgba(0, 0, 0, 0.25);
 
   @keyframes accordion-down {
     from {
@@ -69,9 +69,51 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-none box-border select-none;
+    direction: rtl;
+    font-feature-settings: "ss02";
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02";
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    /* corner-shape: squircle; */
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@utility container-sm {
+  @apply max-w-sm mx-auto;
+}
+
+@utility text-tiny {
+  font-size: 10px;
+  line-height: 18px;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+@utility ltr {
+  direction: ltr;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Hide the default controls */
+}
+
+input,
+textarea {
+  caret-color: var(--primary);
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

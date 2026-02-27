@@ -1,0 +1,15 @@
+## TODO
+- [*] Initialize Configuration
+- [*] Add font & colors variables
+- [*] Add Icons & Logo
+- [*] Update Database Schema
+- [*] Write Routes
+- [ ] Test API endpoints
+- [ ] Create react-query hooks
+- [ ] Add Validation
+- [ ] Add Error Handling
+- [ ] Frontend & Components Tasks
+  - [*] Create Home Page
+  - [*] Create Insert Text Clipboard Page
+  - [ ] Create Insert File Clipboard Page
+  - [ ] Create Tracking Page

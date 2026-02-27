@@ -1,38 +1,71 @@
 import Link from 'next/link'
-import { Suspense } from 'react'
-import { MessageCSR } from '@/components/message-csr'
-import { MessageSSR } from '@/components/message-ssr'
-import { ModeToggle } from '@/components/mode-toggle'
-import { appConfig } from '@/config'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/ui/button'
-import { Separator } from '@/ui/separator'
-
-const GITHUB_REPO_URL = 'https://github.com/soheilghanbary/naas'
-const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} NaaS Stack - Soheil Ghanbary`
+import { BoltIcon, SearchIcon } from '@/shared/assets/icons'
+import { Cards } from '@/shared/assets/svgs/cards'
+import { CodeFile } from '@/shared/assets/svgs/code-file'
+import { ZipFile } from '@/shared/assets/svgs/zip-file'
+import { AppNavigation } from '@/shared/components/app-navigation'
+import { FeatureCard } from '@/shared/components/feature-card'
+import { ModeToggle } from '@/shared/components/mode-toggle'
+import { Button } from '@/shared/components/ui/button'
 
 export default () => {
   return (
-    <div className="flex h-svh w-svw flex-col place-items-center items-center justify-center">
-      <div className="fade-in flex max-w-sm animate-duration-700 animate-fade flex-col items-center gap-y-3 p-4">
-        <ModeToggle />
-        <h1 className="flex flex-col gap-y-1 text-center font-black text-4xl">
-          <span>{appConfig.name}</span>
-          <span className="font-normal text-base">{appConfig.description}</span>
-        </h1>
-        <Separator />
-        <Link href={GITHUB_REPO_URL} className={cn(buttonVariants(), 'w-full')}>
-          Get Started
-        </Link>
-        <p className="text-muted-foreground text-xs">{COPYRIGHT_TEXT}</p>
-        <p className="text-muted-foreground text-xs">
-          Mode: {process.env.NODE_ENV}
-        </p>
-        <Suspense fallback={<p>Loading Data...</p>}>
-          <MessageSSR />
-        </Suspense>
-        <MessageCSR />
-      </div>
-    </div>
+    <>
+      <main className="p-4 pb-20">
+        <header className="-m-4 flex max-h-32 flex-col gap-3 rounded-b-2xl bg-primary p-4">
+          <div className="flex items-center justify-between gap-2">
+            <p className="font-medium text-sm text-white">
+              امروز: (سه شنبه) 13 تیر 1404
+            </p>
+            <ModeToggle />
+          </div>
+          <div className="flex flex-col gap-y-4 rounded-2xl border bg-card p-4 shadow-card">
+            <h1 className="text-center font-semibold text-base/5">
+              توشه (اشتراک گذاری کلیپ برد شما)
+            </h1>
+            <div className="grid grid-cols-2 gap-4">
+              <Button asChild variant={'outline'}>
+                <Link href={'/new'}>
+                  <BoltIcon className="text-primary" />
+                  ایجاد کلیپ برد
+                </Link>
+              </Button>
+              <Button asChild variant={'outline'}>
+                <Link href={'/track'}>
+                  <SearchIcon className="text-primary" />
+                  رهگیری
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </header>
+        <section className="mt-21.5">
+          <div className="flex flex-col gap-y-3 rounded-2xl border bg-card p-4 shadow-card">
+            <h2 className="font-semibold text-base/5">ایجاد ارتباط جدید</h2>
+            <FeatureCard
+              link="/"
+              title="همگام سازی متنی"
+              description="فضای ایمن برای همگام سازی متون ، پسوردها ، ایمیل و سایر داده های
+            متنی در سایر دستگاه ها"
+              svg={<Cards />}
+            />
+            <FeatureCard
+              link="/"
+              title="همگام سازی اسناد و فایل‌ها"
+              description="فضای ایمن برای همگام سازی ایمن فایل‌ها و اسناد در سایر دستگاه ها"
+              svg={<ZipFile />}
+            />
+            <FeatureCard
+              link="/"
+              title="همگام سازی کدها"
+              description="فضای ایمن برای اشتراک و ویرایش کد در سایر دستگاه ها"
+              isComingSoon
+              svg={<CodeFile />}
+            />
+          </div>
+        </section>
+      </main>
+      <AppNavigation />
+    </>
   )
 }
