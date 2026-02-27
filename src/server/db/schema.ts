@@ -76,5 +76,5 @@ export const clip = pgTable('clip', {
   password: varchar('password', { length: 255 }),
   isOneTime: boolean('is_one_time').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  views: integer('views').default(0).notNull(),
+  views: integer('views').default(1).notNull(),
 })
