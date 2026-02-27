@@ -1,12 +1,12 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
 import { parseAsString, useQueryState } from 'nuqs'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { LoaderIcon } from '@/shared/assets/icons'
 import { TrackClipModal } from '@/shared/components/track-modal'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
@@ -78,7 +78,7 @@ export const TrackForm = () => {
             className="w-full"
             disabled={isPending || watch('code')?.length !== 6}
           >
-            {isPending && <Loader2 className="size-4 animate-spin" />}
+            {isPending && <LoaderIcon className="size-4 animate-spin" />}
             بررسی کد رهگیری
           </Button>
         </Paper>

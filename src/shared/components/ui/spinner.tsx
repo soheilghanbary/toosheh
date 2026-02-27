@@ -1,4 +1,4 @@
-import { LoaderIcon } from '@/shared/assets/icons/outline'
+import { LoaderIcon } from '@/shared/assets/icons'
 import { cn } from '@/shared/lib/utils'
 
 function Spinner({ className, ...props }: React.ComponentProps<'svg'>) {
