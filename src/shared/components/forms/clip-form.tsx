@@ -99,7 +99,7 @@ export const ClipForm = () => {
           />
           <TextFieldArea
             label="توضیحات"
-            fieldClassName="min-h-32"
+            fieldClassName="min-h-32 max-h-32"
             {...register('content')}
             error={errors.content?.message}
           />

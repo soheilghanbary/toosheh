@@ -27,7 +27,7 @@ const MODAL_VARIANTS = {
   },
 }
 
-export const TrackClipModal = ({ isOpen, data }: Props) => {
+export const TrackClipModal = ({ isOpen, data, onClose }: Props) => {
   // جلوگیری از اسکرول Body (Scroll Lock)
   useIsomorphicLayoutEffect(() => {
     if (isOpen) {
@@ -52,12 +52,12 @@ export const TrackClipModal = ({ isOpen, data }: Props) => {
           className="sm:container-sm fixed inset-0 z-50 flex size-full flex-col overflow-y-auto bg-background"
         >
           <AppHeader title={`رهگیری کلیپ برد: ${data.code}#`} hideBackButton />
-          <main className="mt-2 flex flex-col gap-y-2 pb-6">
+          <main className="mt-2 flex flex-col gap-y-2">
             <Paper>
               <TextField label="عنوان متن" value={data.title} readOnly />
               <div className="grid gap-y-2">
                 <Label>محتوا</Label>
-                <p className="whitespace-pre-wrap rounded-md border p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
+                <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all rounded-md border p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
                   {data.content}
                 </p>
               </div>
@@ -77,7 +77,7 @@ export const TrackClipModal = ({ isOpen, data }: Props) => {
               <p className="text-center font-medium text-muted-foreground text-sm/5">
                 اطلاعات کلیپ برد
               </p>
-              <ul className="grid text-muted-foreground text-xs [&>li]:border-b [&>li]:py-3">
+              <ul className="grid text-foreground/75 text-xs [&>li]:border-b [&>li]:py-3">
                 <li>نوع کلیپ برد: {data.type === 'text' ? 'متنی' : 'فایل'}</li>
                 <li>کد رهگیری: {data.code}</li>
                 <li>حالت یکبار مصرف: {data.isOneTime ? 'فعال' : 'غیرفعال'}</li>
@@ -102,6 +102,11 @@ export const TrackClipModal = ({ isOpen, data }: Props) => {
                   کد QR ایجاد شده را اسکن کنید
                 </p>
               </div>
+            </Paper>
+            <Paper>
+              <Button onClick={onClose} variant={'secondary'}>
+                بستن
+              </Button>
             </Paper>
           </main>
         </motion.section>
