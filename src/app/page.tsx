@@ -38,7 +38,7 @@ export default () => {
         <div className="flex flex-col gap-y-3 rounded-2xl border bg-card p-4 shadow-card">
           <h2 className="font-semibold text-base/5">ایجاد ارتباط جدید</h2>
           <FeatureCard
-            link="/"
+            link="/new"
             title="همگام سازی متنی"
             description="فضای ایمن برای همگام سازی متون ، پسوردها ، ایمیل و سایر داده های
             متنی در سایر دستگاه ها"
