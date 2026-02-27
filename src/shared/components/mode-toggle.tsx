@@ -1,6 +1,6 @@
 'use client'
-import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { MoonIcon, SunIcon } from '@/assets/icons'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/shared/lib/utils'
 
@@ -11,7 +11,7 @@ export function ModeToggle() {
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={cn(
         buttonVariants({ variant: 'secondary', size: 'icon' }),
-        'size-10'
+        'size-10 [&>svg]:text-primary dark:[&>svg]:text-secondary-foreground'
       )}
     >
       <MoonIcon className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
