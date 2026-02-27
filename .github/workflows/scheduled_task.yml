@@ -1,10 +1,16 @@
-name: Cleanup Cron
+name: Toosheh Cleanup Cron
+
 on:
   schedule:
-    - cron: '*/5 * * * *' # هر ۵ دقیقه
+    - cron: '*/5 * * * *' # هر ۵ دقیقه اجرا شود
+  workflow_dispatch: # این خط اجازه می‌دهد دستی هم تست کنی
+
 jobs:
-  build:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
       - name: Call Cleanup API
-        run: curl -X GET https://toosheh.vercel.app/api/clip/cleanup -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+        run: |
+          curl --request GET \
+          --url 'https://toosheh.vercel.app/api/clip/cleanup' \
+          --header 'Authorization: Bearer ${{ secrets.CRON_SECRET }}'
