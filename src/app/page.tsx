@@ -19,7 +19,7 @@ export default () => {
         </div>
         <div className="flex flex-col rounded-2xl border bg-card p-4 shadow-card">
           <div className="grid grid-cols-2 gap-4">
-            <Button asChild variant={'default'}>
+            <Button asChild variant={'outline'}>
               <Link href={'/new'}>
                 <BoltIcon />
                 ایجاد کلیپ برد
