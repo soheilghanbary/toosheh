@@ -19,7 +19,7 @@ const navItems = [
     activeIcon: HomeBoldIcon,
   },
   {
-    href: '/new',
+    href: '/create',
     label: 'ایجاد کلیپ برد',
     icon: AddCircleIcon,
     activeIcon: AddCircleBoldIcon,
