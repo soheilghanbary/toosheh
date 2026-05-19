@@ -3,9 +3,7 @@ import { Hono } from 'hono'
 import { db } from '@/server/db'
 import { clip } from '@/server/db/schema'
 
-export const cronRoutes = new Hono()
-
-cronRoutes.get('/cleanup', async (c) => {
+export const cronRoutes = new Hono().get('/cleanup', async (c) => {
   // امنیت: چک کردن هدر مخصوص برای اینکه فقط کرون‌جاب بتونه این روت رو صدا بزنه
   const authHeader = c.req.header('Authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {

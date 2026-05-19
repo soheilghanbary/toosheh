@@ -4,7 +4,6 @@ import { customAlphabet } from 'nanoid'
 import { db } from '@/server/db'
 import { clip } from '@/server/db/schema'
 
-export const clipRoutes = new Hono()
 const generateCode = customAlphabet('0123456789', 6)
 
 const calculateExpiry = (expiration: string): Date => {
@@ -30,7 +29,7 @@ const calculateExpiry = (expiration: string): Date => {
   }
 }
 
-clipRoutes
+export const clipRoutes = new Hono()
   .post('/', async (c) => {
     try {
       const body = await c.req.json()
