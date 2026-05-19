@@ -1,12 +1,9 @@
-import type { Route } from 'next'
-import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 interface FeatureCardProps {
   svg: ReactNode // برای دریافت آیکون یا کامپوننت SVG
   title: string // عنوان
   description: string // توضیح کوتاه
-  link: Route // آدرس لینک
   isComingSoon?: boolean // ورودی جدید (اختیاری)
 }
 
@@ -14,14 +11,10 @@ export const FeatureCard = ({
   svg,
   title,
   description,
-  link,
   isComingSoon = false,
 }: FeatureCardProps) => {
   return (
-    <Link
-      href={link}
-      className="flex items-center gap-x-3 rounded-lg px-0 py-2"
-    >
+    <div className="flex items-center gap-x-3 rounded-lg px-0 py-2">
       <div className="flex items-center justify-center rounded-md border p-4">
         {svg}
       </div>
@@ -36,6 +29,6 @@ export const FeatureCard = ({
           {description}
         </p>
       </div>
-    </Link>
+    </div>
   )
 }

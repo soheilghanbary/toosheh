@@ -21,13 +21,13 @@ export default () => {
           <div className="grid grid-cols-2 gap-4">
             <Button asChild variant={'outline'}>
               <Link href={'/create'}>
-                <BoltIcon />
+                <BoltIcon className="text-amber-500" />
                 ایجاد کلیپ برد
               </Link>
             </Button>
             <Button asChild variant={'outline'}>
               <Link href={'/track'}>
-                <SearchIcon />
+                <SearchIcon className="text-sky-500" />
                 رهگیری کد
               </Link>
             </Button>
@@ -38,21 +38,17 @@ export default () => {
         <div className="flex flex-col gap-y-3 rounded-2xl border bg-card p-4 shadow-card">
           <h2 className="font-semibold text-base/5">ایجاد ارتباط جدید</h2>
           <FeatureCard
-            link="/create"
             title="همگام سازی متنی"
             description="فضای ایمن برای همگام سازی متون ، پسوردها ، ایمیل و سایر داده های
             متنی در سایر دستگاه ها"
             svg={<Cards />}
           />
           <FeatureCard
-            link="/"
             title="همگام سازی اسناد و فایل‌ها"
             description="فضای ایمن برای همگام سازی ایمن فایل‌ها و اسناد در سایر دستگاه ها"
             svg={<ZipFile />}
-            isComingSoon
           />
           <FeatureCard
-            link="/"
             title="همگام سازی کدها"
             description="فضای ایمن برای اشتراک و ویرایش کد در سایر دستگاه ها"
             isComingSoon
