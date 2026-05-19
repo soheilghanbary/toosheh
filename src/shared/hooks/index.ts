@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 type CreateClipInput = {
   type: 'text' | 'file' | 'code'
   title: string
-  content: string
+  content: any
   expiration: string
   hasPassword?: boolean
   password?: string

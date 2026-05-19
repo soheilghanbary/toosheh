@@ -6,7 +6,7 @@ import {
 } from 'motion/react'
 import { QRCodeSVG } from 'qrcode.react'
 import { toast } from 'sonner'
-import { CopyIcon } from '@/shared/assets/icons'
+import { CopyIcon, FileIcon } from '@/shared/assets/icons'
 import { AppHeader } from '@/shared/components/app-header'
 import { Button } from '@/shared/components/ui/button'
 import { Label } from '@/shared/components/ui/label'
@@ -57,21 +57,40 @@ export const TrackClipModal = ({ isOpen, data, onClose }: Props) => {
               <TextField label="عنوان متن" value={data.title} readOnly />
               <div className="grid gap-y-2">
                 <Label>محتوا</Label>
-                <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all rounded-md border p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
-                  {data.content}
-                </p>
+                {data.type === 'text' ? (
+                  <>
+                    <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all rounded-md border p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
+                      {data.content.value}
+                    </p>
+                    <Button
+                      className="w-full"
+                      variant="default"
+                      onClick={() => {
+                        navigator.clipboard.writeText(data.content)
+                        toast('محتوا کپی شد')
+                      }}
+                    >
+                      <CopyIcon />
+                      کپی کردن متن
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex flex-wrap items-center gap-x-2">
+                    {data.content.value.map((v, i) => (
+                      <a
+                        href={v}
+                        target="_blank"
+                        rel="noreferrer"
+                        key={v}
+                        className="flex items-center justify-center gap-x-2 rounded-md border border-primary/10 bg-primary/5 p-2 text-primary"
+                      >
+                        <FileIcon className="size-5" />
+                        <p className="font-medium text-xs">فایل ({i + 1})</p>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
-              <Button
-                className="w-full"
-                variant="default"
-                onClick={() => {
-                  navigator.clipboard.writeText(data.content)
-                  toast('محتوا کپی شد')
-                }}
-              >
-                <CopyIcon />
-                کپی کردن متن
-              </Button>
             </Paper>
             <Paper>
               <p className="text-center font-medium text-sm/5">
@@ -93,7 +112,7 @@ export const TrackClipModal = ({ isOpen, data, onClose }: Props) => {
               </ul>
               <div className="flex flex-col items-center gap-y-2 py-2">
                 <QRCodeSVG
-                  size={160}
+                  size={120}
                   value={shareLink}
                   bgColor="var(--card)"
                   fgColor="var(--foreground)"

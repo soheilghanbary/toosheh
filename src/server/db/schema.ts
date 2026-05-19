@@ -69,7 +69,7 @@ export const clip = pgTable('clip', {
   id: uuid('id').defaultRandom().primaryKey(),
   type: clipTypeEnum('type').default('text').notNull(),
   code: varchar('code', { length: 6 }).notNull().unique(),
-  title: varchar('title', { length: 255 }).notNull(),
+  title: varchar('title', { length: 255 }),
   content: jsonb('content').notNull(),
   expiresAt: timestamp('expires_at').notNull(),
   hasPassword: boolean('has_password').default(false).notNull(),

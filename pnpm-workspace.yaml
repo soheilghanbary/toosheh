@@ -2,4 +2,5 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@tailwindcss/oxide'
   - esbuild
+  - msgpackr-extract
   - sharp
