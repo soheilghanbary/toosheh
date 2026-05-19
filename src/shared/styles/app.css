@@ -79,7 +79,7 @@
     /* corner-shape: squircle; */
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#e5e5e5] dark:bg-[#000000] text-foreground;
   }
 }
 
