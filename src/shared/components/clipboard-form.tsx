@@ -135,7 +135,6 @@ export const ClipboardForm = () => {
                 <TabsList className="mx-auto">
                   <TabsTrigger value="text">متنی</TabsTrigger>
                   <TabsTrigger value="file">فایل</TabsTrigger>
-                  <TabsTrigger value="code">کد</TabsTrigger>
                 </TabsList>
               </Tabs>
             )}
