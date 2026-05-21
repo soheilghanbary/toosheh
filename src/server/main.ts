@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
-import { clipRoutes } from '@/server/routes/clip.route'
+import { clipsRoutes } from '@/server/routes/clip.route'
 import { cronRoutes } from '@/server/routes/crop.route'
 
 // initialize hono app
@@ -13,5 +13,5 @@ app.use('*', logger())
 // routes
 const apiRoutes = app
   .basePath('/api')
-  .route('/clip', clipRoutes)
+  .route('/clips', clipsRoutes)
   .route('/cron', cronRoutes)

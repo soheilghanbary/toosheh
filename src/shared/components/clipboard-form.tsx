@@ -1,6 +1,7 @@
 'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { ClipboardUpload } from 'shared/components/clipboard-upload'
 import * as z from 'zod'
@@ -11,70 +12,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CloudIcon } from '@/shared/assets/icons'
-import { ClipSuccessModal } from '@/shared/components/clip-success-modal'
 import { Button } from '@/shared/components/ui/button'
 import { Label } from '@/shared/components/ui/label'
-import { Paper } from '@/shared/components/ui/paper'
 import { Switch } from '@/shared/components/ui/switch'
 import { TextField } from '@/shared/components/ui/text-field'
 import { TextFieldArea } from '@/shared/components/ui/text-field-area'
 import { useCreateClip } from '@/shared/hooks'
 
 const formSchema = z
-  .discriminatedUnion('type', [
-    z.object({
-      type: z.literal('text'),
-      title: z.string().min(1, 'عنوان الزامی است'),
-      content: z.string().min(5, 'متن باید حداقل ۵ کاراکتر باشد'),
-      expiration: z.string(),
-      hasPassword: z.boolean(),
-      password: z.string().optional(),
-      isOneTime: z.boolean(),
-    }),
-    z.object({
-      type: z.literal('file'),
-      title: z.string().min(1, 'عنوان الزامی است'),
-      content: z.array(z.string()).min(1, 'حداقل یک فایل باید آپلود شود'),
-      expiration: z.string(),
-      hasPassword: z.boolean(),
-      password: z.string().optional(),
-      isOneTime: z.boolean(),
-    }),
-  ])
+  .object({
+    title: z.string().min(1, 'عنوان الزامی است'),
+    description: z.string().min(5, 'متن باید حداقل ۵ کاراکتر باشد'),
+    files: z.array(z.string()).default([]),
+    expiration: z.string(),
+    hasPassword: z.boolean(),
+    password: z.string().optional(),
+    isOneTime: z.boolean(),
+  })
   .refine(
-    (data) => {
-      if (data.hasPassword && (!data.password || data.password.length < 4)) {
-        return false
-      }
-      return true
-    },
+    (data) => !data.hasPassword || (data.password && data.password.length >= 4),
     { message: 'رمز عبور باید حداقل ۴ کاراکتر باشد', path: ['password'] }
   )
 
 type FormValues = z.infer<typeof formSchema>
 
 export const ClipboardForm = () => {
-  const [successData, setSuccessData] = useState<{
-    code: string
-    id: string
-  } | null>(null)
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     control,
     watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      type: 'text',
       title: '',
-      content: '' as any,
-      expiration: '10m',
+      description: '',
+      files: [],
+      expiration: '30m', // اصلاح شد: هماهنگ با گزینه‌های Select
       hasPassword: false,
       password: '',
       isOneTime: false,
@@ -83,181 +60,116 @@ export const ClipboardForm = () => {
 
   const { mutateAsync, isPending } = useCreateClip()
   const hasPasswordEnabled = watch('hasPassword')
+
   const onSubmit = handleSubmit(async (data) => {
-    const payload = {
-      ...data,
-      content:
-        data.type === 'file'
-          ? {
-              type: 'file',
-              value: data.content as string[],
-            }
-          : {
-              type: 'text',
-              value: data.content as string,
-            },
-    }
     try {
-      const response = await mutateAsync(payload)
-      if (response.success) {
-        setSuccessData({ code: response.code, id: response.id })
+      const payload = {
+        title: data.title,
+        description: data.description,
+        files: data.files,
+        expiration: data.expiration,
+        isOneTime: data.isOneTime,
+        password: hasPasswordEnabled ? data.password : undefined,
+      }
+      const res = await mutateAsync(payload)
+      if (res.success) {
+        router.push(`/success?code=${res.code}`)
       }
     } catch (error) {
       console.error(error)
     }
   })
 
-  const handleCloseModal = () => {
-    setSuccessData(null)
-    reset() // فرم را برای ایجاد کلیپ بعدی پاک کن
-  }
-
   return (
-    <>
-      <form onSubmit={onSubmit} className="flex h-full flex-col gap-y-2">
-        <div className="flex items-center justify-between px-4 py-2">
-          <Label>نوع کلیپ برد</Label>
-          <Controller
-            name="type"
-            control={control}
-            render={({ field }) => (
-              <Tabs
-                defaultValue={field.value}
-                onValueChange={(e) => {
-                  field.onChange(e)
-                  if (e === 'file') {
-                    setValue('content', [] as any)
-                  } else {
-                    setValue('content', '')
-                  }
-                }}
-              >
-                <TabsList className="mx-auto">
-                  <TabsTrigger value="text">متنی</TabsTrigger>
-                  <TabsTrigger value="file">فایل</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            )}
+    <form
+      onSubmit={onSubmit}
+      className="mx-auto flex max-w-md flex-col gap-y-6 rounded-xl bg-muted/40 p-6"
+    >
+      <h1 className="font-semibold">ایجاد کلیپ برد</h1>
+      <TextField
+        label="عنوان"
+        {...register('title')}
+        error={errors.title?.message}
+      />
+      <TextFieldArea
+        label="متن کلیپ‌برد"
+        fieldClassName="min-h-32 max-h-32"
+        {...register('description')}
+        error={errors.description?.message}
+      />
+      <div className="grid gap-y-2">
+        <Label>فایل‌های ضمیمه</Label>
+        <Controller
+          name="files"
+          control={control}
+          render={({ field }) => (
+            <ClipboardUpload value={field.value} onChange={field.onChange} />
+          )}
+        />
+      </div>
+      <div className="grid gap-y-2">
+        <Label>تاریخ انقضاء</Label>
+        <Controller
+          name="expiration"
+          control={control}
+          render={({ field }) => (
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <SelectTrigger>
+                <SelectValue placeholder="انتخاب تاریخ" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="30m">۳۰ دقیقه</SelectItem>
+                <SelectItem value="1h">۱ ساعت</SelectItem>
+                <SelectItem value="12h">۱۲ ساعت</SelectItem>
+                <SelectItem value="24h">۲۴ ساعت</SelectItem>
+                <SelectItem value="3d">۳ روز</SelectItem>
+                <SelectItem value="7d">۷ روز</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="haspass">کلمه عبور؟</Label>
+        <Controller
+          name="hasPassword"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              id="haspass"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          )}
+        />
+      </div>
+      {hasPasswordEnabled && (
+        <div className="fade-in slide-in-from-top-2 animate-in duration-300">
+          <TextField
+            type="text"
+            label="رمز عبور را وارد کنید"
+            {...register('password')}
+            error={errors.password?.message}
           />
         </div>
-        {watch('type') === 'text' && (
-          <Paper key={'text-type'} className="grid gap-y-4">
-            <TextField
-              label="توضیحات"
-              {...register('title')}
-              error={errors.title?.message}
+      )}
+      <div className="flex items-center justify-between">
+        <Label htmlFor="onetime">حالت یکبار مصرف?</Label>
+        <Controller
+          name="isOneTime"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              id="onetime"
+              checked={field.value}
+              onCheckedChange={field.onChange}
             />
-            <TextFieldArea
-              label="متن"
-              fieldClassName="min-h-32 max-h-32"
-              {...register('content')}
-              error={errors.content?.message}
-            />
-          </Paper>
-        )}
-        {watch('type') === 'file' && (
-          <Paper key={'file-type'} className="grid gap-y-4">
-            <TextField
-              label="توضیحات"
-              {...register('title')}
-              error={errors.title?.message}
-            />
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <ClipboardUpload
-                  value={field.value as any}
-                  onChange={(v) => field.onChange(v as any)}
-                />
-              )}
-            />
-          </Paper>
-        )}
-        <Paper className="grid gap-y-4">
-          <div className="grid gap-y-2">
-            <Label>تاریخ انقضاء</Label>
-            <Controller
-              name="expiration"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="انتخاب تاریخ" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="5m">۵ دقیقه</SelectItem>
-                    <SelectItem value="10m">۱۰ دقیقه</SelectItem>
-                    <SelectItem value="30m">۳۰ دقیقه</SelectItem>
-                    <SelectItem value="1h">۱ ساعت</SelectItem>
-                    <SelectItem value="12h">۱۲ ساعت</SelectItem>
-                    <SelectItem value="24h">۲۴ ساعت</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.expiration && (
-              <p className="text-[10px] text-red-500">
-                {errors.expiration.message}
-              </p>
-            )}
-          </div>
-        </Paper>
-        <Paper className="grid gap-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="haspass">کلمه عبور؟</Label>
-            <Controller
-              name="hasPassword"
-              control={control}
-              render={({ field }) => (
-                <Switch
-                  id="haspass"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-          </div>
-          {hasPasswordEnabled && (
-            <div className="fade-in slide-in-from-top-2 animate-in duration-300">
-              <TextField
-                type="text"
-                label="رمز عبور را وارد کنید"
-                {...register('password')}
-                error={errors.password?.message}
-              />
-            </div>
           )}
-          <div className="flex items-center justify-between">
-            <Label htmlFor="onetime">حالت یکبار مصرف؟</Label>
-            <Controller
-              name="isOneTime"
-              control={control}
-              render={({ field }) => (
-                <Switch
-                  id="onetime"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-          </div>
-        </Paper>
-        <Paper className="mt-auto">
-          <Button type="submit" className="w-full" disabled={isPending}>
-            همگام سازی
-            <CloudIcon className="mr-2" />
-          </Button>
-        </Paper>
-      </form>
-      <ClipSuccessModal
-        data={successData}
-        isOpen={!!successData}
-        onClose={handleCloseModal}
-      />
-    </>
+        />
+      </div>
+      <Button type="submit" className="w-full" disabled={isPending}>
+        همگام سازی
+      </Button>
+    </form>
   )
 }

@@ -61,7 +61,7 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="sm:container-sm fixed inset-0 z-999 flex size-full flex-col bg-background"
+          className="fixed inset-0 z-999 mx-auto flex size-full max-w-md flex-col bg-background"
         >
           <AppHeader title="کلیپ برد شما" hideBackButton />
           <main className="mt-2 flex flex-col gap-y-2 pb-6">

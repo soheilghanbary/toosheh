@@ -1,7 +1,7 @@
 import { lt } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { db } from '@/server/db'
-import { clip } from '@/server/db/schema'
+import { clips } from '@/server/db/schema'
 
 export const cronRoutes = new Hono().get('/cleanup', async (c) => {
   // امنیت: چک کردن هدر مخصوص برای اینکه فقط کرون‌جاب بتونه این روت رو صدا بزنه
@@ -15,9 +15,9 @@ export const cronRoutes = new Hono().get('/cleanup', async (c) => {
 
     // حذف تمام رکوردهایی که expiresAt آن‌ها کوچکتر از "الان" است
     const deletedClips = await db
-      .delete(clip)
-      .where(lt(clip.expiresAt, now))
-      .returning({ id: clip.id })
+      .delete(clips)
+      .where(lt(clips.expiresAt, now))
+      .returning({ id: clips.id })
 
     return c.json({
       success: true,

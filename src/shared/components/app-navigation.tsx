@@ -6,6 +6,7 @@ import {
   AddCircleIcon,
   HomeBoldIcon,
   HomeIcon,
+  SearchIcon,
   UsersBoldIcon,
   UsersIcon,
 } from '@/shared/assets/icons'
@@ -23,6 +24,12 @@ const navItems = [
     label: 'ایجاد کلیپ برد',
     icon: AddCircleIcon,
     activeIcon: AddCircleBoldIcon,
+  },
+  {
+    href: '/track',
+    label: 'رهگیری کد',
+    icon: SearchIcon,
+    activeIcon: SearchIcon,
   },
   {
     href: '/about',
@@ -58,8 +65,8 @@ const NavigationItem = ({
 
 export const AppNavigation = () => {
   return (
-    <footer className="container-sm fixed inset-x-0 bottom-0 left-0 z-10 border-t bg-card/95 backdrop-blur-lg">
-      <section className="grid w-full grid-cols-3 gap-x-3 px-3 py-2.5">
+    <footer className="fixed inset-x-0 bottom-0 left-0 z-10 border-t bg-card/95 backdrop-blur-lg sm:hidden">
+      <section className="grid w-full grid-cols-4 gap-x-3 px-3 py-2.5">
         {navItems.map((item) => (
           <NavigationItem key={item.href} {...item} />
         ))}

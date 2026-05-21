@@ -1,6 +1,7 @@
 import '@/styles/app.css'
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
+import { Navbar } from 'shared/components/navbar'
 import Providers from '@/components/providers'
 import { appConfig } from '@/config'
 import { font } from '@/shared/assets/font'
@@ -30,8 +31,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body className={`${font.className} antialiased`}>
         <Providers>
-          <main className="sm:container-sm min-h-dvh w-full border-0 bg-background pb-20 sm:border-x">
-            {children}
+          <main className="container-lg min-h-dvh px-4 pb-20">
+            <Navbar />
+            <main className="mt-4">{children}</main>
           </main>
           <AppNavigation />
         </Providers>

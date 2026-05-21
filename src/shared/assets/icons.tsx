@@ -357,3 +357,23 @@ export function FileIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function SearchBoldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      {/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M21.788 21.788a.723.723 0 0 0 0-1.022L18.122 17.1a9.157 9.157 0 1 0-1.022 1.022l3.666 3.666a.723.723 0 0 0 1.022 0"
+        clipRule="evenodd"
+      />
+    </svg>
+  )
+}

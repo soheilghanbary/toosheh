@@ -2,11 +2,10 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 type CreateClipInput = {
-  type: 'text' | 'file' | 'code'
   title: string
-  content: any
+  description: string
+  files: string[]
   expiration: string
-  hasPassword?: boolean
   password?: string
   isOneTime?: boolean
 }
@@ -14,7 +13,7 @@ type CreateClipInput = {
 export const useCreateClip = () => {
   return useMutation({
     mutationFn: async (json: CreateClipInput) => {
-      const response = await fetch('/api/clip', {
+      const response = await fetch('/api/clips', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +22,7 @@ export const useCreateClip = () => {
       })
       const data = await response.json()
       if (!response.ok) {
-        throw new Error(data.message || 'خطایی رخ داده است')
+        throw new Error(data.error || 'خطایی رخ داده است')
       }
       return data as { success: boolean; id: string; code: string }
     },

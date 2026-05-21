@@ -10,7 +10,6 @@ import { LoaderIcon } from '@/shared/assets/icons'
 import { TrackClipModal } from '@/shared/components/track-modal'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
-import { Paper } from '@/shared/components/ui/paper'
 
 const trackSchema = z.object({
   code: z
@@ -74,55 +73,57 @@ export const TrackForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Paper className="grid gap-y-3">
-          {!requiresPassword ? (
-            <Input
-              maxLength={6}
-              autoComplete="off"
-              inputMode="numeric"
-              placeholder="کد 6 رقمی رهگیری را وارد کنید"
-              className="ltr text-center font-semibold text-base tracking-[0.5em]"
-              {...register('code')}
-            />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto flex h-full max-w-md flex-col gap-y-6 rounded-xl bg-muted/40 p-6"
+      >
+        <h1 className="font-semibold">جستجوی کلیپ برد</h1>
+        {!requiresPassword ? (
+          <Input
+            maxLength={6}
+            autoComplete="off"
+            inputMode="numeric"
+            placeholder="کد 6 رقمی رهگیری را وارد کنید"
+            className="ltr text-center font-semibold text-base tracking-[0.5em]"
+            {...register('code')}
+          />
+        ) : (
+          <Input
+            autoFocus
+            type="password"
+            placeholder="رمز عبور را وارد کنید"
+            className="ltr text-center font-semibold text-base tracking-[0.5em]"
+            {...register('password')}
+          />
+        )}
+        <Button
+          type="submit"
+          variant="secondary"
+          className="w-full"
+          disabled={
+            isPending || (!requiresPassword && watch('code')?.length !== 6)
+          }
+        >
+          {isPending ? (
+            <LoaderIcon className="size-4 animate-spin" />
+          ) : requiresPassword ? (
+            'تایید رمز عبور'
           ) : (
-            <Input
-              autoFocus
-              type="password"
-              placeholder="رمز عبور را وارد کنید"
-              className="ltr text-center font-semibold text-base tracking-[0.5em]"
-              {...register('password')}
-            />
+            'بررسی کد رهگیری'
           )}
+        </Button>
+        {requiresPassword && (
           <Button
-            type="submit"
-            variant="secondary"
-            className="w-full"
-            disabled={
-              isPending || (!requiresPassword && watch('code')?.length !== 6)
-            }
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setRequiresPassword(false)
+              reset({ code: getValues('code'), password: '' })
+            }}
           >
-            {isPending ? (
-              <LoaderIcon className="size-4 animate-spin" />
-            ) : requiresPassword ? (
-              'تایید رمز عبور'
-            ) : (
-              'بررسی کد رهگیری'
-            )}
+            بازگشت
           </Button>
-          {requiresPassword && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setRequiresPassword(false)
-                reset({ code: getValues('code'), password: '' })
-              }}
-            >
-              بازگشت
-            </Button>
-          )}
-        </Paper>
+        )}
       </form>
       <TrackClipModal
         isOpen={!!trackData}

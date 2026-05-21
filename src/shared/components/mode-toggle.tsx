@@ -10,8 +10,8 @@ export function ModeToggle() {
     <Button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={cn(
-        buttonVariants({ variant: 'secondary', size: 'icon' }),
-        'size-10 [&>svg]:text-primary dark:[&>svg]:text-secondary-foreground'
+        buttonVariants({ variant: 'link', size: 'icon' }),
+        'size-10 rounded-full text-foreground'
       )}
     >
       <MoonIcon className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

@@ -14,8 +14,8 @@ export const FeatureCard = ({
   isComingSoon = false,
 }: FeatureCardProps) => {
   return (
-    <div className="flex items-center gap-x-3 rounded-lg px-0 py-2">
-      <div className="flex items-center justify-center rounded-md border p-4">
+    <div className="flex items-center gap-x-3 rounded-xl bg-muted p-4 dark:bg-card">
+      <div className="flex items-center justify-center rounded-md p-2">
         {svg}
       </div>
       <div className="flex flex-col gap-y-2">
