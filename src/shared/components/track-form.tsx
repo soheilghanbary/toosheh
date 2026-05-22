@@ -84,8 +84,8 @@ export const TrackForm = () => {
             maxLength={6}
             autoComplete="off"
             inputMode="numeric"
-            placeholder="کد 6 رقمی رهگیری را وارد کنید"
-            className="ltr flex-1 rounded-md text-center font-semibold text-base tracking-[0.5em]"
+            placeholder="کد 6 رقمی رهگیری"
+            className="ltr flex-1 rounded-md text-center font-semibold text-sm tracking-[0.5em]"
             {...register('code')}
           />
           <Button
@@ -119,7 +119,7 @@ export const TrackForm = () => {
             <CopyIcon />
             کپی کردن متن
           </Button>
-          {trackData.files.length && (
+          {trackData.files && (
             <div className="grid gap-y-2">
               <p>فایل ها</p>
               <div className="flex flex-wrap items-center gap-x-2">
@@ -129,7 +129,7 @@ export const TrackForm = () => {
                     target="_blank"
                     rel="noreferrer"
                     key={v}
-                    className="flex items-center justify-center gap-x-2 rounded-md border border-primary/10 bg-primary/10 p-2 text-primary"
+                    className="flex items-center justify-center gap-x-2 rounded-md border border-primary/10 bg-primary/10 p-2 text-primary dark:bg-primary/20 dark:text-cyan-400"
                   >
                     <FileIcon className="size-5" />
                     <p className="font-medium text-xs">فایل ({i + 1})</p>
@@ -138,45 +138,7 @@ export const TrackForm = () => {
               </div>
             </div>
           )}
-          {/* <div className="grid gap-y-2">
-                      <Label>محتوا</Label>
-                      {(
-                        <>
-                          <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all rounded-md border p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
-                            {data.content.value}
-                          </p>
-                          <Button
-                            className="w-full"
-                            variant="default"
-                            onClick={() => {
-                              navigator.clipboard.writeText(data.content)
-                              toast('محتوا کپی شد')
-                            }}
-                          >
-                            <CopyIcon />
-                            کپی کردن متن
-                          </Button>
-                        </>
-                      ) : (
-                        <div className="flex flex-wrap items-center gap-x-2">
-                          {data.content.value.map((v, i) => (
-                            <a
-                              href={v}
-                              target="_blank"
-                              rel="noreferrer"
-                              key={v}
-                              className="flex items-center justify-center gap-x-2 rounded-md border border-primary/10 bg-primary/5 p-2 text-primary"
-                            >
-                              <FileIcon className="size-5" />
-                              <p className="font-medium text-xs">فایل ({i + 1})</p>
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div> */}
-          <p className="mt-4 text-center font-medium text-sm/5">
-            اطلاعات کلیپ برد
-          </p>
+          <p className="text-center font-medium text-sm/5">اطلاعات کلیپ برد</p>
           <ul className="grid text-foreground/75 text-xs [&>li]:border-b [&>li]:py-3">
             <li>کد رهگیری: {trackData.code}</li>
             <li>حالت یکبار مصرف: {trackData.isOneTime ? 'فعال' : 'غیرفعال'}</li>

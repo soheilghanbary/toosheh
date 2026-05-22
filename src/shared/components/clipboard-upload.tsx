@@ -48,7 +48,7 @@ export const ClipboardUpload = ({
         type="button"
         disabled={isUploading || value.length >= 3}
         className={cn(
-          'flex h-10 cursor-pointer items-center justify-center gap-2 rounded-4xl border border-primary border-dashed bg-primary/5 text-primary transition-all hover:bg-primary/10 active:scale-95',
+          'flex h-10 cursor-pointer items-center justify-center gap-2 rounded-4xl border border-primary border-dashed bg-primary/15 text-primary transition-all hover:bg-primary/10 active:scale-95 dark:text-cyan-400',
           isDragActive && 'bg-primary/10'
         )}
         {...getRootProps()}
@@ -75,7 +75,7 @@ export const ClipboardUpload = ({
         {value.map((url, index) => (
           <div
             key={url}
-            className="flex items-center justify-between gap-x-4 rounded-md bg-muted p-2"
+            className="flex items-center justify-between gap-x-4 rounded-full bg-muted p-2"
           >
             <span className="grow truncate pr-1 font-medium text-sm">
               فایل {index + 1}
