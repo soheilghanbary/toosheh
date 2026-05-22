@@ -27,6 +27,20 @@ export const clipsRoutes = new Hono()
     if (!clip) {
       return c.json({ error: 'Clip not found' }, 404)
     }
+    const now = new Date()
+    if (clip.expiresAt && now > new Date(clip.expiresAt)) {
+      await db.delete(clips).where(eq(clips.id, clip.id))
+      return c.json({ error: 'Clip has expired' }, 410) // کد ۴۱۰ (Gone) یا ۴۰۴ مناسب است
+    }
+    if (clip.isOneTime) {
+      await db.delete(clips).where(eq(clips.id, clip.id))
+    } else {
+      await db
+        .update(clips)
+        .set({ views: (clip.views || 0) + 1 })
+        .where(eq(clips.id, clip.id))
+    }
+
     return c.json(clip)
   })
   .post('/', async (c) => {
@@ -46,7 +60,7 @@ export const clipsRoutes = new Hono()
       if (body.password) {
         hashedPassword = await hashPassword(body.password)
       }
-      const duration = EXPIRATION_MAP[body.expiration] || EXPIRATION_MAP['1d']
+      const duration = EXPIRATION_MAP[body.expiration] || EXPIRATION_MAP['24h']
       const expiresAt = new Date(Date.now() + duration)
       const [newClip] = await db
         .insert(clips)
@@ -69,6 +83,7 @@ export const clipsRoutes = new Hono()
         201
       )
     } catch (_error) {
+      console.error('Error creating clip:', _error)
       return c.json({ error: 'Failed to create clip' }, 400)
     }
   })

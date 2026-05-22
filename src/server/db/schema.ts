@@ -11,12 +11,12 @@ import {
 export const clips = pgTable('clips', {
   id: uuid('id').defaultRandom().primaryKey(),
   code: varchar('code', { length: 6 }).notNull().unique(),
-  title: varchar('title', { length: 255 }),
+  title: varchar('title', { length: 255 }).notNull(),
   description: text('description'),
   files: text('files').array().notNull().default([]),
   password: varchar('password', { length: 255 }),
   isOneTime: boolean('is_one_time').default(false).notNull(),
-  views: integer('views').default(0).notNull(),
+  views: integer('views').default(1).notNull(),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()

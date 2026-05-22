@@ -43,7 +43,6 @@ export const ClipboardForm = () => {
     handleSubmit,
     control,
     watch,
-    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
