@@ -22,7 +22,7 @@ import { useCreateClip } from '@/shared/hooks'
 const formSchema = z
   .object({
     title: z.string().min(1, 'عنوان الزامی است'),
-    description: z.string().min(5, 'متن باید حداقل ۵ کاراکتر باشد'),
+    description: z.string(),
     files: z.array(z.string()).default([]),
     expiration: z.string(),
     hasPassword: z.boolean(),

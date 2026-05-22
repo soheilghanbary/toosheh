@@ -6,10 +6,15 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { Clip } from 'server/db/schema'
-import { TextField } from 'shared/components/ui/text-field'
+import { Separator } from 'shared/components/ui/separator'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { CopyIcon, LoaderIcon } from '@/shared/assets/icons'
+import {
+  CopyIcon,
+  FileIcon,
+  LoaderIcon,
+  SearchIcon,
+} from '@/shared/assets/icons'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 
@@ -71,63 +76,36 @@ export const TrackForm = () => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto flex h-full max-w-md flex-col gap-y-6 rounded-xl bg-muted/40 p-6"
+        className="mx-auto flex h-full max-w-md flex-col gap-y-4 rounded-xl bg-muted/40 p-6"
       >
         <h1 className="font-semibold">جستجوی کلیپ برد</h1>
-        {!requiresPassword ? (
+        <div className="flex items-center gap-2">
           <Input
             maxLength={6}
             autoComplete="off"
             inputMode="numeric"
             placeholder="کد 6 رقمی رهگیری را وارد کنید"
-            className="ltr text-center font-semibold text-base tracking-[0.5em]"
+            className="ltr flex-1 rounded-md text-center font-semibold text-base tracking-[0.5em]"
             {...register('code')}
           />
-        ) : (
-          <Input
-            autoFocus
-            type="password"
-            placeholder="رمز عبور را وارد کنید"
-            className="ltr text-center font-semibold text-base tracking-[0.5em]"
-            {...register('password')}
-          />
-        )}
-        <Button
-          type="submit"
-          variant="secondary"
-          className="w-full"
-          disabled={
-            isPending || (!requiresPassword && watch('code')?.length !== 6)
-          }
-        >
-          {isPending ? (
-            <LoaderIcon className="size-4 animate-spin" />
-          ) : requiresPassword ? (
-            'تایید رمز عبور'
-          ) : (
-            'بررسی کد رهگیری'
-          )}
-        </Button>
-        {requiresPassword && (
           <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              setRequiresPassword(false)
-              reset({ code: getValues('code'), password: '' })
-            }}
+            type="submit"
+            variant="secondary"
+            disabled={isPending || watch('code')?.length !== 6}
+            className="rounded-md"
           >
-            بازگشت
+            {isPending ? <LoaderIcon /> : <SearchIcon />}
+            جستجو
           </Button>
-        )}
+        </div>
       </form>
       {trackData && (
         <main className="mx-auto mt-4 max-w-md space-y-4 rounded-xl bg-muted/40 p-6">
-          <TextField label="عنوان متن" value={trackData.title} readOnly />
-          <div className="grid gap-2">
-            <p className="font-medium text-sm">متن</p>
-            <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all rounded-xl border border-input bg-card p-3 text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
-              {trackData.description}
+          <div className="rounded-2xl border bg-card p-4">
+            <p className="font-medium text-sm">{trackData.title}</p>
+            <Separator className="my-4" />
+            <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
+              {trackData.description ? trackData.description : 'بدون توضیحات'}
             </p>
           </div>
           <Button
@@ -141,6 +119,25 @@ export const TrackForm = () => {
             <CopyIcon />
             کپی کردن متن
           </Button>
+          {trackData.files.length && (
+            <div className="grid gap-y-2">
+              <p>فایل ها</p>
+              <div className="flex flex-wrap items-center gap-x-2">
+                {trackData.files.map((v, i) => (
+                  <a
+                    href={v}
+                    target="_blank"
+                    rel="noreferrer"
+                    key={v}
+                    className="flex items-center justify-center gap-x-2 rounded-md border border-primary/10 bg-primary/10 p-2 text-primary"
+                  >
+                    <FileIcon className="size-5" />
+                    <p className="font-medium text-xs">فایل ({i + 1})</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
           {/* <div className="grid gap-y-2">
                       <Label>محتوا</Label>
                       {(
@@ -209,7 +206,7 @@ export const TrackForm = () => {
           </ul>
           <div className="flex flex-col items-center gap-y-2 py-2">
             <QRCodeSVG
-              size={120}
+              size={150}
               value={`${window.location.origin}/track?code=${trackData.code}`}
               bgColor="var(--card)"
               fgColor="var(--foreground)"
