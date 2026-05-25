@@ -1,10 +1,12 @@
+import clsx from 'clsx'
 import type { ReactNode } from 'react'
 
 interface FeatureCardProps {
-  svg: ReactNode // برای دریافت آیکون یا کامپوننت SVG
-  title: string // عنوان
-  description: string // توضیح کوتاه
-  isComingSoon?: boolean // ورودی جدید (اختیاری)
+  svg: ReactNode
+  title: string
+  description: string
+  isComingSoon?: boolean
+  className?: string
 }
 
 export const FeatureCard = ({
@@ -12,20 +14,36 @@ export const FeatureCard = ({
   title,
   description,
   isComingSoon = false,
+  className,
 }: FeatureCardProps) => {
   return (
-    <div className="flex items-center gap-x-3 rounded-xl bg-muted p-4 dark:bg-card">
-      <div className="flex items-center justify-center rounded-md p-2">
+    <div
+      className={clsx(
+        'group relative flex flex-col gap-4 rounded-2xl border bg-card p-5 transition-all duration-300',
+        'hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg',
+        'backdrop-blur-sm dark:bg-card/60',
+        className
+      )}
+    >
+      {/* Badge */}
+      {isComingSoon && (
+        <span className="absolute top-3 right-3 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary">
+          به زودی
+        </span>
+      )}
+
+      {/* Icon */}
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:scale-110">
         {svg}
       </div>
-      <div className="flex flex-col gap-y-2">
-        <h3 className="font-medium text-foreground text-xs">
-          {title}{' '}
-          {isComingSoon && (
-            <span className="text-destructive text-xs">(به زودی)</span>
-          )}
+
+      {/* Content */}
+      <div className="flex flex-col gap-2">
+        <h3 className="font-semibold text-foreground text-sm leading-tight">
+          {title}
         </h3>
-        <p className="text-muted-foreground text-xs/4.5 leading-relaxed">
+
+        <p className="text-muted-foreground text-xs leading-relaxed">
           {description}
         </p>
       </div>

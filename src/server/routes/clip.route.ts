@@ -23,15 +23,48 @@ async function hashPassword(password: string): Promise<string> {
 export const clipsRoutes = new Hono()
   .get('/:code', async (c) => {
     const code = c.req.param('code')
+    const password = c.req.query('password')
+
     const [clip] = await db.select().from(clips).where(eq(clips.code, code))
+
     if (!clip) {
       return c.json({ error: 'Clip not found' }, 404)
     }
+
     const now = new Date()
-    if (clip.expiresAt && now > new Date(clip.expiresAt)) {
+    if (now > new Date(clip.expiresAt)) {
       await db.delete(clips).where(eq(clips.id, clip.id))
-      return c.json({ error: 'Clip has expired' }, 410) // کد ۴۱۰ (Gone) یا ۴۰۴ مناسب است
+      return c.json({ error: 'Clip has expired' }, 410)
     }
+
+    const hasPassword = !!clip.password
+
+    if (hasPassword) {
+      if (!password) {
+        return c.json(
+          {
+            error: 'PASSWORD_REQUIRED',
+            requiresPassword: true,
+            hasPassword: true,
+          },
+          401
+        )
+      }
+
+      const hashed = await hashPassword(password)
+
+      if (hashed !== clip.password) {
+        return c.json(
+          {
+            error: 'INVALID_PASSWORD',
+            requiresPassword: true,
+            hasPassword: true,
+          },
+          403
+        )
+      }
+    }
+
     if (clip.isOneTime) {
       await db.delete(clips).where(eq(clips.id, clip.id))
     } else {
@@ -41,7 +74,12 @@ export const clipsRoutes = new Hono()
         .where(eq(clips.id, clip.id))
     }
 
-    return c.json(clip)
+    const { password: _, ...safeClip } = clip
+
+    return c.json({
+      ...safeClip,
+      hasPassword,
+    })
   })
   .post('/', async (c) => {
     try {
@@ -57,8 +95,10 @@ export const clipsRoutes = new Hono()
         if (!existing) isUnique = true
       }
       let hashedPassword = null
+      let hasPassword = false
       if (body.password) {
         hashedPassword = await hashPassword(body.password)
+        hasPassword = true
       }
       const duration = EXPIRATION_MAP[body.expiration] || EXPIRATION_MAP['24h']
       const expiresAt = new Date(Date.now() + duration)
@@ -72,6 +112,7 @@ export const clipsRoutes = new Hono()
           password: hashedPassword,
           isOneTime: body.isOneTime || false,
           expiresAt: expiresAt,
+          hasPassword,
         })
         .returning()
       return c.json(

@@ -68,6 +68,7 @@ export const ClipboardForm = () => {
         files: data.files,
         expiration: data.expiration,
         isOneTime: data.isOneTime,
+        hasPassword: data.hasPassword,
         password: hasPasswordEnabled ? data.password : undefined,
       }
       const res = await mutateAsync(payload)
@@ -82,30 +83,28 @@ export const ClipboardForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto flex max-w-md flex-col gap-y-6 rounded-xl bg-muted/40 p-6"
+      className="mx-auto flex max-w-md flex-col gap-y-6"
     >
       <h1 className="font-semibold">ایجاد کلیپ برد</h1>
       <TextField
         label="عنوان"
         {...register('title')}
         error={errors.title?.message}
+        inputClass=""
       />
       <TextFieldArea
         label="متن کلیپ‌برد"
-        fieldClassName="min-h-32 max-h-32"
         {...register('description')}
         error={errors.description?.message}
+        fieldClassName="min-h-32 max-h-32"
       />
-      <div className="grid gap-y-2">
-        <Label>فایل‌های ضمیمه</Label>
-        <Controller
-          name="files"
-          control={control}
-          render={({ field }) => (
-            <ClipboardUpload value={field.value} onChange={field.onChange} />
-          )}
-        />
-      </div>
+      <Controller
+        name="files"
+        control={control}
+        render={({ field }) => (
+          <ClipboardUpload value={field.value} onChange={field.onChange} />
+        )}
+      />
       <div className="grid gap-y-2">
         <Label>تاریخ انقضاء</Label>
         <Controller

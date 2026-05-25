@@ -44,9 +44,15 @@ export const TrackForm = () => {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (values: TrackValues) => {
-      const res = await fetch(`/api/clips/${values.code}`)
+      const url = new URL(`/api/clips/${values.code}`, window.location.origin)
+      if (values.password) {
+        url.searchParams.set('password', values.password)
+      }
+      const res = await fetch(url.toString())
       const result = await res.json()
-      if (!res.ok) throw new Error(result.message || 'یافت نشد')
+      if (!res.ok) {
+        throw result
+      }
       return result
     },
   })
@@ -56,19 +62,22 @@ export const TrackForm = () => {
       const result = await mutateAsync(values)
       if (result.requiresPassword) {
         setRequiresPassword(true)
+        toast.error('رمز عبور لازم است')
         return
       }
       setTrackData(result)
       setRequiresPassword(false)
       setQueryCode(values.code)
     } catch (err: any) {
-      if (requiresPassword) {
-        toast.error('رمز عبور وارد شده نادرست است')
-        reset({ ...getValues(), password: '' }) // پاک کردن فیلد رمز برای تلاش مجدد
-      } else {
-        toast.error(err.message || 'کد منقضی شده یا یافت نشد')
-        setQueryCode(null)
+      if (err?.error === 'INVALID_PASSWORD') {
+        toast.error('رمز عبور اشتباه است')
+        return
       }
+      if (err?.error === 'PASSWORD_REQUIRED') {
+        setRequiresPassword(true)
+        return
+      }
+      setQueryCode(null)
     }
   }
 
@@ -90,17 +99,27 @@ export const TrackForm = () => {
           />
           <Button
             type="submit"
-            variant="secondary"
+            variant={requiresPassword ? 'default' : 'secondary'}
             disabled={isPending || watch('code')?.length !== 6}
             className="rounded-md"
           >
             {isPending ? <LoaderIcon /> : <SearchIcon />}
-            جستجو
+            {requiresPassword ? 'تایید رمز' : 'جستجو'}
           </Button>
         </div>
+        {requiresPassword && (
+          <Input
+            maxLength={6}
+            autoComplete="off"
+            inputMode="numeric"
+            placeholder="رمز عبور "
+            className="ltr flex-1 rounded-md text-center font-semibold text-sm tracking-[0.5em]"
+            {...register('password')}
+          />
+        )}
       </form>
       {trackData && (
-        <main className="mx-auto mt-4 max-w-md space-y-4 rounded-xl bg-muted/40 p-6">
+        <main className="mx-auto mt-8 max-w-md space-y-4 rounded-xl">
           <div className="rounded-2xl border bg-card p-4">
             <p className="font-medium text-sm">{trackData.title}</p>
             <Separator className="my-4" />
@@ -151,7 +170,7 @@ export const TrackForm = () => {
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false, // اگر ساعت ۲۴ ساعته می‌خواهی این را بگذار، اگر ۱۲ ساعته (ق.ظ/ب.ظ) می‌خواهی حذفش کن یا true بذار
+                hour12: false,
               })}
             </li>
             <li>
@@ -162,7 +181,7 @@ export const TrackForm = () => {
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false, // اگر ساعت ۲۴ ساعته می‌خواهی این را بگذار، اگر ۱۲ ساعته (ق.ظ/ب.ظ) می‌خواهی حذفش کن یا true بذار
+                hour12: false,
               })}
             </li>
           </ul>

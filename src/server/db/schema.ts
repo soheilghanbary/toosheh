@@ -15,6 +15,7 @@ export const clips = pgTable('clips', {
   description: text('description'),
   files: text('files').array().notNull().default([]),
   password: varchar('password', { length: 255 }),
+  hasPassword: boolean('has_password').default(false).notNull(),
   isOneTime: boolean('is_one_time').default(false).notNull(),
   views: integer('views').default(1).notNull(),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
