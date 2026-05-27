@@ -14,7 +14,7 @@ const SuccessPage = () => {
 
   const handleShare = async () => {
     await navigator.share({
-      title: `کلیپ برد ${code}`,
+      title: `کلیپ بورد ${code}`,
       url: `https://toosheh.vercel.app/track?code=${code}`,
     })
   }
@@ -24,7 +24,7 @@ const SuccessPage = () => {
       {params.get('code')}
       <div className="rounded-lg border-2 border-teal-500 border-dashed bg-teal-500/10 p-3 text-center">
         <p className="font-semibold text-sm/5 text-teal-600 dark:text-teal-400">
-          کلیپ برد شما با موفقیت ایجاد شد 🎉 <br />
+          کلیپ بورد شما با موفقیت ایجاد شد 🎉 <br />
           کد رهگیری: <span className="font-bold text-lg">{code}</span>
         </p>
       </div>

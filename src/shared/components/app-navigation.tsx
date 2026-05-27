@@ -21,7 +21,7 @@ const navItems = [
   },
   {
     href: '/create',
-    label: 'ایجاد کلیپ برد',
+    label: 'ایجاد کلیپ بورد',
     icon: AddCircleIcon,
     activeIcon: AddCircleBoldIcon,
   },

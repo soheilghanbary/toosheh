@@ -24,7 +24,7 @@ export const Navbar = () => {
           <span>توشه</span>
         </Link>
         <div className="hidden items-center gap-1 sm:flex">
-          <NavLink href={'/create'}>ایجاد کلیپ برد</NavLink>
+          <NavLink href={'/create'}>ایجاد کلیپ بورد</NavLink>
           <NavLink href={'/track'}>رهگیری کد</NavLink>
           <NavLink href={'/about'}>درباره ما</NavLink>
         </div>

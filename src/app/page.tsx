@@ -41,7 +41,7 @@ export default function Page() {
       <div className="grid gap-4 py-12 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
         <FeatureCard
           title="بدون نیاز به ثبت نام"
-          description="بدون ساخت اکانت و در کمترین زمان، کلیپ برد خود را ایجاد و استفاده کنید"
+          description="بدون ساخت اکانت و در کمترین زمان، کلیپ بورد خود را ایجاد و استفاده کنید"
           svg={<UserPlus />}
         />
 
@@ -72,7 +72,7 @@ export default function Page() {
 
         <FeatureCard
           title="دسترسی سریع"
-          description="دسترسی سریع به کلیپ بردها از هر دستگاه و هر مکان"
+          description="دسترسی سریع به کلیپ بورد از هر دستگاه و هر مکان"
           svg={<Zap />}
         />
 

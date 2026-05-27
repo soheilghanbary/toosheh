@@ -46,8 +46,8 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
   const handleShare = async () => {
     if (!data) return
     const shareData = {
-      title: `کلیپ برد ${data.code} در توشه`,
-      text: `محتوای کلیپ‌برد "${data?.code}" را از طریق لینک زیر مشاهده کنید.`,
+      title: `کلیپ بورد ${data.code} در توشه`,
+      text: `محتوای کلیپ‌بورد "${data?.code}" را از طریق لینک زیر مشاهده کنید.`,
       url: shareLink,
     }
     await navigator.share(shareData)
@@ -63,12 +63,12 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
           exit="exit"
           className="fixed inset-0 z-999 mx-auto flex size-full max-w-md flex-col bg-background"
         >
-          <AppHeader title="کلیپ برد شما" hideBackButton />
+          <AppHeader title="کلیپ بورد شما" hideBackButton />
           <main className="mt-2 flex flex-col gap-y-2 pb-6">
             <Paper>
               <div className="rounded-lg border-2 border-success border-dashed bg-success/10 p-3 text-center">
                 <p className="font-semibold text-sm/5 text-success">
-                  کلیپ برد شما با موفقیت ایجاد شد 🎉 <br />
+                  کلیپ بورد شما با موفقیت ایجاد شد 🎉 <br />
                   کد رهگیری:{' '}
                   <span className="font-bold text-lg">{data.code}</span>
                 </p>
@@ -113,7 +113,7 @@ export const ClipSuccessModal = ({ isOpen, data, onClose }: Props) => {
             </Paper>
             <Paper>
               <Button className="w-full" onClick={onClose}>
-                ایجاد کلیپ برد جدید
+                ایجاد کلیپ بورد جدید
               </Button>
             </Paper>
           </main>

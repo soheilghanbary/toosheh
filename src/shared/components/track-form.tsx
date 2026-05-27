@@ -87,7 +87,7 @@ export const TrackForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto flex h-full max-w-md flex-col gap-y-4 rounded-xl bg-muted/40 p-6"
       >
-        <h1 className="font-semibold">جستجوی کلیپ برد</h1>
+        <h1 className="font-semibold">جستجوی کلیپ بورد</h1>
         <div className="flex items-center gap-2">
           <Input
             maxLength={6}
@@ -157,13 +157,13 @@ export const TrackForm = () => {
               </div>
             </div>
           )}
-          <p className="text-center font-medium text-sm/5">اطلاعات کلیپ برد</p>
+          <p className="text-center font-medium text-sm/5">اطلاعات کلیپ بورد</p>
           <ul className="grid text-foreground/75 text-xs [&>li]:border-b [&>li]:py-3">
             <li>کد رهگیری: {trackData.code}</li>
             <li>حالت یکبار مصرف: {trackData.isOneTime ? 'فعال' : 'غیرفعال'}</li>
             <li>تعداد مشاهده شده: {trackData.views ?? 0}</li>
             <li>
-              تاریخ ثبت کلیپ برد:{' '}
+              تاریخ ثبت کلیپ بورد:{' '}
               {new Date(trackData.createdAt).toLocaleString('fa-IR', {
                 year: 'numeric',
                 month: 'long',
@@ -174,7 +174,7 @@ export const TrackForm = () => {
               })}
             </li>
             <li>
-              انقضاء کلیپ برد:{' '}
+              انقضاء کلیپ بورد:{' '}
               {new Date(trackData.expiresAt).toLocaleString('fa-IR', {
                 year: 'numeric',
                 month: 'long',

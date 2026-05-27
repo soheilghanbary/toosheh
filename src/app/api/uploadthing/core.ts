@@ -7,8 +7,8 @@ export const ourFileRouter = {
     blob: { maxFileSize: '4MB', maxFileCount: 3 },
     image: { maxFileSize: '4MB', maxFileCount: 3 },
   }).onUploadComplete(async ({ file }) => {
-    console.log('فایل آپلود شد:', file.url)
-    return { url: file.url }
+    console.log('فایل آپلود شد:', file.ufsUrl)
+    return { url: file.ufsUrl }
   }),
 } satisfies FileRouter
 
