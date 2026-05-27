@@ -85,7 +85,7 @@ export const ClipboardForm = () => {
       onSubmit={onSubmit}
       className="mx-auto flex max-w-md flex-col gap-y-6"
     >
-      <h1 className="font-semibold">ایجاد کلیپ برد</h1>
+      <h1 className="font-semibold">ایجاد کلیپ بورد</h1>
       <TextField
         label="عنوان"
         {...register('title')}
@@ -93,7 +93,7 @@ export const ClipboardForm = () => {
         inputClass=""
       />
       <TextFieldArea
-        label="متن کلیپ‌برد"
+        label="متن"
         {...register('description')}
         error={errors.description?.message}
         fieldClassName="min-h-32 max-h-32"

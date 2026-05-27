@@ -1,6 +1,7 @@
 import '@/styles/app.css'
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
+import { Footer } from 'shared/components/footer'
 import { Navbar } from 'shared/components/navbar'
 import Providers from '@/components/providers'
 import { appConfig } from '@/config'
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <main className="mt-4">{children}</main>
           </main>
           <AppNavigation />
+          <Footer />
         </Providers>
       </body>
     </html>

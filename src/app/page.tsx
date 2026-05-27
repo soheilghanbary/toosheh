@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 
 import Link from 'next/link'
+import { SearchIcon } from 'shared/assets/icons'
 import { Button } from 'shared/components/ui/button'
 import { FeatureCard } from '@/shared/components/feature-card'
 
@@ -18,21 +19,26 @@ export default function Page() {
   return (
     <section>
       <div className="grid place-items-center gap-4 py-12">
-        <h1 className="text-center font-black text-4xl">
-          اشتراک گذاری کلیپ برد شما
+        <h1 className="text-center font-black text-2xl md:text-4xl">
+          اشتراک گذاری کلیپ بورد شما
         </h1>
-
-        <p className="text-sm">بدون نیاز به ثبت نام</p>
-
-        <Button asChild className="rounded-full">
-          <Link href="/create">
-            <PlusIcon />
-            ایجاد کلیپ برد
-          </Link>
-        </Button>
+        <div className="flex items-center justify-center gap-4">
+          <Button asChild className="rounded-full">
+            <Link href="/create">
+              <PlusIcon />
+              ایجاد کلیپ بورد
+            </Link>
+          </Button>
+          <Button variant={'secondary'} asChild className="rounded-full">
+            <Link href="/track">
+              <SearchIcon />
+              رهگیری
+            </Link>
+          </Button>
+        </div>
       </div>
 
-      <div className="grid gap-8 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-4 py-12 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
         <FeatureCard
           title="بدون نیاز به ثبت نام"
           description="بدون ساخت اکانت و در کمترین زمان، کلیپ برد خود را ایجاد و استفاده کنید"
