@@ -28,7 +28,7 @@ export const clipsRoutes = new Hono()
     const [clip] = await db.select().from(clips).where(eq(clips.code, code))
 
     if (!clip) {
-      return c.json({ error: 'Clip not found' }, 404)
+      return c.json({ error: 'CLIP_NOT_FOUND' }, 404)
     }
 
     const now = new Date()

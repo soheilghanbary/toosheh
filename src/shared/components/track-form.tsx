@@ -36,11 +36,10 @@ export const TrackForm = () => {
     parseAsString.withDefault('').withOptions({ shallow: true })
   )
 
-  const { register, handleSubmit, reset, watch, getValues } =
-    useForm<TrackValues>({
-      resolver: zodResolver(trackSchema),
-      defaultValues: { code: queryCode, password: '' },
-    })
+  const { register, handleSubmit, watch } = useForm<TrackValues>({
+    resolver: zodResolver(trackSchema),
+    defaultValues: { code: queryCode, password: '' },
+  })
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (values: TrackValues) => {
@@ -76,6 +75,9 @@ export const TrackForm = () => {
       if (err?.error === 'PASSWORD_REQUIRED') {
         setRequiresPassword(true)
         return
+      }
+      if (err?.error === 'CLIP_NOT_FOUND') {
+        toast.error('کلیپ بورد یافت نشد')
       }
       setQueryCode(null)
     }
