@@ -74,11 +74,13 @@ export const clipsRouter = {
         throw errors.CLIP_EXPIRED()
       }
       const hasPassword = !!clip.password
-      if (hasPassword) {
-        if (!password) {
-          throw errors.PASSWORD_REQUIRED()
+      if (hasPassword && !password) {
+        return {
+          requiresPassword: true,
         }
-        const hashed = await hashPassword(password)
+      }
+      if (hasPassword) {
+        const hashed = await hashPassword(password!)
         if (hashed !== clip.password) {
           throw errors.INVALID_PASSWORD()
         }
@@ -95,6 +97,7 @@ export const clipsRouter = {
       return {
         ...safeClip,
         hasPassword,
+        requiresPassword: false, // 👈 برای consistency
       }
     }),
   /**

@@ -66,9 +66,8 @@ export const TrackForm = () => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto flex h-full max-w-md flex-col gap-y-4 rounded-xl bg-muted/40 p-6"
+        className="mx-auto flex h-full max-w-md flex-col gap-y-4 rounded-xl bg-muted/40 p-4"
       >
-        <h1 className="font-semibold">جستجوی کلیپ بورد</h1>
         <div className="flex items-center gap-2">
           <Input
             maxLength={6}
@@ -80,7 +79,7 @@ export const TrackForm = () => {
           />
           <Button
             type="submit"
-            variant={requiresPassword ? 'default' : 'secondary'}
+            variant={requiresPassword ? 'default' : 'outline'}
             disabled={isPending || watch('code')?.length !== 6}
             className="rounded-md"
           >
@@ -101,9 +100,10 @@ export const TrackForm = () => {
       </form>
       {trackData && (
         <main className="mx-auto mt-8 max-w-md space-y-4 rounded-xl">
-          <div className="rounded-2xl border bg-card p-4">
+          <div className="rounded-xl border bg-card p-4">
+            <p className="mb-2 text-sm">متن</p>
             <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
-              {trackData.description ? trackData.description : 'بدون توضیحات'}
+              {trackData.description}
             </p>
           </div>
           <Button
@@ -117,7 +117,7 @@ export const TrackForm = () => {
             <CopyIcon />
             کپی کردن متن
           </Button>
-          {trackData.files && (
+          {Boolean(trackData.files.length) && (
             <div className="grid gap-y-2">
               <p>فایل ها</p>
               <div className="flex flex-wrap items-center gap-x-2">
