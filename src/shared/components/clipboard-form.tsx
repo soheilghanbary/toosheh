@@ -1,11 +1,11 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 import { VisuallyHidden } from 'radix-ui'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { client } from 'server/lib/orpc.client'
+import { LoaderIcon } from 'shared/assets/icons'
 import { ClipboardUpload } from 'shared/components/clipboard-upload'
 import { SuccessModal } from 'shared/components/success-modal'
 import {
@@ -48,7 +48,6 @@ type FormValues = z.infer<typeof formSchema>
 export const ClipboardForm = () => {
   const [open, setOpen] = useState(false)
   const [code, setCode] = useState<string | null>(null)
-  const _router = useRouter()
   const {
     register,
     handleSubmit,
@@ -163,6 +162,7 @@ export const ClipboardForm = () => {
           />
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending && <LoaderIcon />}
           همگام سازی
         </Button>
       </form>

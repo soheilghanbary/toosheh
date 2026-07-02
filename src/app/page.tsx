@@ -1,6 +1,5 @@
 'use client'
-import { Download } from 'lucide-react'
-import { UploadIcon } from 'shared/assets/icons'
+import { ArrowDown, ArrowUp } from 'lucide-react'
 import { ClipboardForm } from 'shared/components/clipboard-form'
 import { TrackForm } from 'shared/components/track-form'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -19,11 +18,11 @@ export default function Page() {
           <Tabs defaultValue="send">
             <TabsList className="mb-2 w-full">
               <TabsTrigger value="send">
-                <UploadIcon />
+                <ArrowUp />
                 ارسال
               </TabsTrigger>
               <TabsTrigger value="receive">
-                <Download />
+                <ArrowDown />
                 دریافت
               </TabsTrigger>
             </TabsList>

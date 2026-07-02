@@ -45,7 +45,6 @@ export const SuccessModal = ({ code }: { code: string }) => {
           اشتراک گذاری
         </Button>
       </div>
-
       <QRCodeSVG
         size={160}
         value={shareLink}
@@ -53,7 +52,6 @@ export const SuccessModal = ({ code }: { code: string }) => {
         fgColor="var(--foreground)"
         className="mx-auto"
       />
-
       <p className="text-center text-muted-foreground text-tiny">
         کد QR ایجاد شده را اسکن کنید
       </p>
