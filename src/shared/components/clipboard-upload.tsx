@@ -2,6 +2,7 @@ import { EyeIcon, Loader2, UploadIcon, X } from 'lucide-react'
 import { Activity, useCallback, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FileIcon } from 'shared/assets/icons'
+import { buttonVariants } from 'shared/components/ui/button'
 import { Separator } from 'shared/components/ui/separator'
 import { cn } from 'shared/lib/utils'
 import { toast } from 'sonner'
@@ -101,10 +102,7 @@ export const ClipboardUpload = ({
       <button
         type="button"
         disabled={isUploading || value.length >= 3}
-        className={cn(
-          'flex w-fit items-center gap-2 rounded-3xl border border-primary border-dashed bg-primary/10 px-4 py-2 text-primary transition',
-          isDragActive && 'bg-primary/20'
-        )}
+        className={cn(buttonVariants({ variant: 'outline' }), 'w-fit')}
         {...getRootProps()}
       >
         <input {...getInputProps()} />
