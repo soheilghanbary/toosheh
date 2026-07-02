@@ -6,7 +6,6 @@ import { Navbar } from 'shared/components/navbar'
 import Providers from '@/components/providers'
 import { appConfig } from '@/config'
 import { font } from '@/shared/assets/font'
-import { AppNavigation } from '@/shared/components/app-navigation'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -37,7 +36,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <Navbar />
             <main className="mt-4">{children}</main>
           </main>
-          <AppNavigation />
           <Footer />
         </Providers>
       </body>
