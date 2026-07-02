@@ -14,6 +14,8 @@ type UploadState = {
   status: 'idle' | 'uploading' | 'success' | 'error'
 }
 
+const MAX_SIZE = 4 * 1024 * 1024 // 4MB
+
 export const ClipboardUpload = ({
   value = [],
   onChange,
@@ -38,7 +40,6 @@ export const ClipboardUpload = ({
 
   const startFakeProgress = () => {
     setUploadState({ progress: 0, status: 'uploading' })
-
     intervalRef.current = setInterval(() => {
       setUploadState((prev) => {
         if (prev.progress >= 90) return prev
@@ -50,15 +51,11 @@ export const ClipboardUpload = ({
   const { startUpload } = useUploadThing('fileUploader', {
     onClientUploadComplete: (res) => {
       stopFakeProgress()
-
       setUploadState({ progress: 100, status: 'success' })
       setIsUploading(false)
-
       const newUrls = res.map((file) => file.ufsUrl)
       onChange([...value, ...newUrls])
-
       toast.success('آپلود با موفقیت انجام شد')
-
       setTimeout(() => {
         setUploadState({ progress: 0, status: 'idle' })
       }, 800)
@@ -66,10 +63,8 @@ export const ClipboardUpload = ({
 
     onUploadError: (e) => {
       stopFakeProgress()
-
       setUploadState({ progress: 0, status: 'error' })
       setIsUploading(false)
-
       toast.error(`خطا در آپلود: ${e.message}`)
     },
   })
@@ -90,9 +85,19 @@ export const ClipboardUpload = ({
     toast.message('آپلود لغو شد')
   }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    onDropRejected: (files) => {
+      files.forEach((file) => {
+        file.errors.forEach((err) => {
+          if (err.code === 'file-too-large') {
+            toast.error('حجم فایل باید کمتر از ۴ مگابایت باشد')
+          }
+        })
+      })
+    },
     maxFiles: 3 - value.length,
+    maxSize: MAX_SIZE, // 👈 اضافه شد
     disabled: isUploading || value.length >= 3,
   })
 
@@ -109,7 +114,6 @@ export const ClipboardUpload = ({
         <UploadIcon className="size-4" />
         <p className="font-medium text-sm">آپلود فایل</p>
       </button>
-
       {/* Upload Panel */}
       {isUploading && (
         <div className="rounded-xl border bg-muted/40 p-3">
@@ -122,12 +126,10 @@ export const ClipboardUpload = ({
                 {uploadState.status === 'error' && 'خطا در آپلود'}
               </span>
             </div>
-
             <button type="button" onClick={cancelUpload}>
               <X className="size-4 text-muted-foreground hover:text-foreground" />
             </button>
           </div>
-
           {/* Progress Bar */}
           <div className="h-2 w-full rounded-full bg-background">
             <div
@@ -135,7 +137,6 @@ export const ClipboardUpload = ({
               style={{ width: `${uploadState.progress}%` }}
             />
           </div>
-
           <p className="mt-1 text-muted-foreground text-xs">
             {Math.round(uploadState.progress)}%
           </p>
