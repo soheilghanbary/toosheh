@@ -34,7 +34,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Providers>
           <main className="mx-auto min-h-dvh max-w-4xl px-4">
             <Navbar />
-            <main className="mt-4">{children}</main>
+            <main>{children}</main>
           </main>
           <Footer />
         </Providers>
