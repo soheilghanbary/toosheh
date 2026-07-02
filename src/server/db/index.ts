@@ -1,5 +1,5 @@
-import { drizzle } from 'drizzle-orm/neon-http'
+import 'dotenv/config'
+import { drizzle } from 'drizzle-orm/node-postgres'
 import * as schema from './schema'
 
-const conn = process.env.DATABASE_URL!
-export const db = drizzle(conn, { schema })
+export const db = drizzle(process.env.DATABASE_URL!, { schema })

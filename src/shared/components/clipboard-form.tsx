@@ -1,8 +1,10 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
+import { client } from 'server/lib/orpc.client'
 import { ClipboardUpload } from 'shared/components/clipboard-upload'
 import * as z from 'zod'
 import {
@@ -17,11 +19,9 @@ import { Label } from '@/shared/components/ui/label'
 import { Switch } from '@/shared/components/ui/switch'
 import { TextField } from '@/shared/components/ui/text-field'
 import { TextFieldArea } from '@/shared/components/ui/text-field-area'
-import { useCreateClip } from '@/shared/hooks'
 
 const formSchema = z
   .object({
-    title: z.string().min(1, 'عنوان الزامی است'),
     description: z.string(),
     files: z.array(z.string()).default([]),
     expiration: z.string(),
@@ -47,7 +47,6 @@ export const ClipboardForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
       description: '',
       files: [],
       expiration: '30m', // اصلاح شد: هماهنگ با گزینه‌های Select
@@ -57,21 +56,13 @@ export const ClipboardForm = () => {
     },
   })
 
-  const { mutateAsync, isPending } = useCreateClip()
+  const { mutateAsync, isPending } = useMutation(
+    client.clip.createClip.mutationOptions()
+  )
   const hasPasswordEnabled = watch('hasPassword')
-
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const payload = {
-        title: data.title,
-        description: data.description,
-        files: data.files,
-        expiration: data.expiration,
-        isOneTime: data.isOneTime,
-        hasPassword: data.hasPassword,
-        password: hasPasswordEnabled ? data.password : undefined,
-      }
-      const res = await mutateAsync(payload)
+      const res = await mutateAsync(data)
       if (res.success) {
         router.push(`/success?code=${res.code}`)
       }
@@ -86,12 +77,6 @@ export const ClipboardForm = () => {
       className="mx-auto flex max-w-md flex-col gap-y-6"
     >
       <h1 className="font-semibold">ایجاد کلیپ بورد</h1>
-      <TextField
-        label="عنوان"
-        {...register('title')}
-        error={errors.title?.message}
-        inputClass=""
-      />
       <TextFieldArea
         label="متن"
         {...register('description')}

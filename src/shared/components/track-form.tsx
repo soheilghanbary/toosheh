@@ -6,7 +6,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { Clip } from 'server/db/schema'
-import { Separator } from 'shared/components/ui/separator'
+import { client } from 'server/lib/orpc.client'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import {
@@ -41,20 +41,9 @@ export const TrackForm = () => {
     defaultValues: { code: queryCode, password: '' },
   })
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (values: TrackValues) => {
-      const url = new URL(`/api/clips/${values.code}`, window.location.origin)
-      if (values.password) {
-        url.searchParams.set('password', values.password)
-      }
-      const res = await fetch(url.toString())
-      const result = await res.json()
-      if (!res.ok) {
-        throw result
-      }
-      return result
-    },
-  })
+  const { mutateAsync, isPending } = useMutation(
+    client.clip.getClip.mutationOptions()
+  )
 
   const onSubmit = async (values: TrackValues) => {
     try {
@@ -68,17 +57,7 @@ export const TrackForm = () => {
       setRequiresPassword(false)
       setQueryCode(values.code)
     } catch (err: any) {
-      if (err?.error === 'INVALID_PASSWORD') {
-        toast.error('رمز عبور اشتباه است')
-        return
-      }
-      if (err?.error === 'PASSWORD_REQUIRED') {
-        setRequiresPassword(true)
-        return
-      }
-      if (err?.error === 'CLIP_NOT_FOUND') {
-        toast.error('کلیپ بورد یافت نشد')
-      }
+      toast.error(err.message)
       setQueryCode(null)
     }
   }
@@ -123,8 +102,6 @@ export const TrackForm = () => {
       {trackData && (
         <main className="mx-auto mt-8 max-w-md space-y-4 rounded-xl">
           <div className="rounded-2xl border bg-card p-4">
-            <p className="font-medium text-sm">{trackData.title}</p>
-            <Separator className="my-4" />
             <p className="max-h-32 overflow-y-auto whitespace-pre-wrap break-all text-muted-foreground text-xs/5 ltr:text-left rtl:text-right">
               {trackData.description ? trackData.description : 'بدون توضیحات'}
             </p>
@@ -133,7 +110,7 @@ export const TrackForm = () => {
             className="w-full"
             variant="default"
             onClick={() => {
-              navigator.clipboard.writeText('data.content')
+              navigator.clipboard.writeText(trackData.description!)
               toast('محتوا کپی شد')
             }}
           >

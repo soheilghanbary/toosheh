@@ -32,7 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body className={`${font.className} antialiased`}>
         <Providers>
-          <main className="container-lg min-h-dvh px-4 pb-20">
+          <main className="container-sm min-h-dvh px-4 pb-20">
             <Navbar />
             <main className="mt-4">{children}</main>
           </main>

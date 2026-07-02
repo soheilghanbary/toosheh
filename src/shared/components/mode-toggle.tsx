@@ -10,7 +10,7 @@ export function ModeToggle() {
     <Button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={cn(
-        buttonVariants({ variant: 'link', size: 'icon' }),
+        buttonVariants({ variant: 'outline', size: 'icon' }),
         'size-10 rounded-full text-foreground'
       )}
     >

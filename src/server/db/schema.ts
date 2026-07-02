@@ -11,9 +11,8 @@ import {
 export const clips = pgTable('clips', {
   id: uuid('id').defaultRandom().primaryKey(),
   code: varchar('code', { length: 6 }).notNull().unique(),
-  title: varchar('title', { length: 255 }).notNull(),
   description: text('description'),
-  files: text('files').array().notNull().default([]),
+  files: text('files').array().notNull(),
   password: varchar('password', { length: 255 }),
   hasPassword: boolean('has_password').default(false).notNull(),
   isOneTime: boolean('is_one_time').default(false).notNull(),
