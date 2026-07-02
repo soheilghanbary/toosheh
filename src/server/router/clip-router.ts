@@ -66,21 +66,17 @@ export const clipsRouter = {
       const { code, password } = input
       const [clip] = await db.select().from(clips).where(eq(clips.code, code))
       if (!clip) {
-        return { error: 'CLIP_NOT_FOUND' }
+        throw errors.CLIP_NOT_FOUND()
       }
       const now = new Date()
       if (now > new Date(clip.expiresAt)) {
         await db.delete(clips).where(eq(clips.id, clip.id))
-        return { error: 'CLIP_EXPIRED' }
+        throw errors.CLIP_EXPIRED()
       }
       const hasPassword = !!clip.password
       if (hasPassword) {
         if (!password) {
-          return {
-            error: 'PASSWORD_REQUIRED',
-            requiresPassword: true,
-            hasPassword: true,
-          }
+          throw errors.PASSWORD_REQUIRED()
         }
         const hashed = await hashPassword(password)
         if (hashed !== clip.password) {
