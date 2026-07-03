@@ -32,7 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body className={`${font.className} antialiased`}>
         <Providers>
-          <main className="mx-auto min-h-dvh max-w-4xl px-4">
+          <main className="mx-auto min-h-dvh max-w-4xl px-4 pb-4">
             <Navbar />
             <main>{children}</main>
           </main>

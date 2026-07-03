@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Logo } from 'shared/assets/logo'
 import { ModeToggle } from 'shared/components/mode-toggle'
 
 export const Navbar = () => {
@@ -6,9 +7,9 @@ export const Navbar = () => {
     <header className="flex items-center justify-between py-4">
       <Link
         href="/"
-        className="flex items-center space-x-2 font-bold text-xl tracking-tight"
+        className="text-primary text-xl tracking-tight dark:text-foreground"
       >
-        <span>توشه</span>
+        <Logo />
       </Link>
       <ModeToggle />
     </header>

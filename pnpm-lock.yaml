@@ -14,9 +14,6 @@ importers:
       '@libsql/client':
         specifier: ^0.17.4
         version: 0.17.4
-      '@neondatabase/serverless':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@orpc/client':
         specifier: ^1.14.6
         version: 1.14.6
@@ -35,12 +32,12 @@ importers:
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       cmdk:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      cnfast:
+        specifier: ^0.0.8
+        version: 0.0.8
       date-fns-jalali:
         specifier: 4.1.0-0
         version: 4.1.0-0
@@ -144,9 +141,6 @@ importers:
       postcss:
         specifier: ^8.5.15
         version: 8.5.15
-      tailwind-merge:
-        specifier: ^3.6.0
-        version: 3.6.0
       tailwind-variants:
         specifier: ^3.2.2
         version: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0)
@@ -1894,6 +1888,10 @@ packages:
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
 
+  cnfast@0.0.8:
+    resolution: {integrity: sha512-EjXKMfGfdwtV4AcNSQ6AwQaVzpC1B7IxeiwA3FlhTXz+YFlMKVi4c1JX9tgD2QOlahQXjB8KUXrBaYG+3v871Q==}
+    hasBin: true
+
   cookie@1.1.1:
     resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
@@ -3227,7 +3225,8 @@ snapshots:
 
   '@neon-rs/load@0.0.4': {}
 
-  '@neondatabase/serverless@1.1.0': {}
+  '@neondatabase/serverless@1.1.0':
+    optional: true
 
   '@next/env@16.2.6': {}
 
@@ -4304,6 +4303,8 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
+  cnfast@0.0.8: {}
+
   cookie@1.1.1: {}
 
   csstype@3.2.3: {}
@@ -4955,7 +4956,8 @@ snapshots:
 
   tagged-tag@1.0.0: {}
 
-  tailwind-merge@3.6.0: {}
+  tailwind-merge@3.6.0:
+    optional: true
 
   tailwind-variants@3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0):
     dependencies:

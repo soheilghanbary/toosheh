@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'cnfast'
 import type { ReactNode } from 'react'
 
 interface FeatureCardProps {
