@@ -58,6 +58,7 @@ export const TrackForm = () => {
       setQueryCode(values.code)
     } catch (err: any) {
       toast.error(err.message)
+      setTrackData(null)
       setQueryCode(null)
     }
   }
