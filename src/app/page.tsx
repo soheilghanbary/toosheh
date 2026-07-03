@@ -16,12 +16,12 @@ export default function Page() {
         </p>
         <div className="container-sm w-full">
           <Tabs defaultValue="send">
-            <TabsList className="mb-2 w-full">
-              <TabsTrigger value="send">
+            <TabsList className="mb-2 w-full rounded-full">
+              <TabsTrigger className="rounded-[inherit]" value="send">
                 <ArrowUp />
                 ارسال
               </TabsTrigger>
-              <TabsTrigger value="receive">
+              <TabsTrigger className="rounded-[inherit]" value="receive">
                 <ArrowDown />
                 دریافت
               </TabsTrigger>
