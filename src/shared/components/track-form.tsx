@@ -55,7 +55,7 @@ export const TrackForm = () => {
       }
       setTrackData(result)
       setRequiresPassword(false)
-      setQueryCode(values.code)
+      setQueryCode(null)
     } catch (err: any) {
       toast.error(err.message)
       setTrackData(null)
