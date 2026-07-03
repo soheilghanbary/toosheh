@@ -27,7 +27,7 @@ export default function Page() {
         </p>
         <div className="container-sm w-full">
           <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
-            <TabsList className="mb-2 w-full rounded-full">
+            <TabsList className="mb-1 w-full rounded-full">
               <TabsTrigger className="rounded-[inherit]" value="send">
                 <ArrowUp />
                 ارسال
