@@ -31,7 +31,7 @@ import { TextFieldArea } from '@/shared/components/ui/text-field-area'
 
 const formSchema = z
   .object({
-    description: z.string(),
+    description: z.string().min(5, 'توضیحات باید حداقل ۵ کاراکتر باشند'),
     files: z.array(z.string()).default([]),
     expiration: z.string(),
     hasPassword: z.boolean(),
