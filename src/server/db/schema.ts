@@ -1,25 +1,23 @@
-import {
-  boolean,
-  integer,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core'
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export const clips = pgTable('clips', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  code: varchar('code', { length: 6 }).notNull().unique(),
+export const clips = sqliteTable('clips', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  code: text('code').notNull().unique(),
   description: text('description'),
-  files: text('files').array().notNull(),
-  password: varchar('password', { length: 255 }),
-  hasPassword: boolean('has_password').default(false).notNull(),
-  isOneTime: boolean('is_one_time').default(false).notNull(),
+  files: text('files', { mode: 'json' }).$type<string[]>().notNull(),
+  password: text('password'),
+  hasPassword: integer('has_password', { mode: 'boolean' })
+    .default(false)
+    .notNull(),
+  isOneTime: integer('is_one_time', { mode: 'boolean' })
+    .default(false)
+    .notNull(),
   views: integer('views').default(1).notNull(),
-  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true })
-    .defaultNow()
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' })
+    .$defaultFn(() => new Date())
     .notNull(),
 })
 
