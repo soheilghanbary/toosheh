@@ -15,7 +15,7 @@ export const clips = sqliteTable('clips', {
     .default(false)
     .notNull(),
   views: integer('views').default(1).notNull(),
-  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+  expiresAt: integer('expires_at'), // timestamp (ms)
   createdAt: integer('created_at', { mode: 'timestamp' })
     .$defaultFn(() => new Date())
     .notNull(),
