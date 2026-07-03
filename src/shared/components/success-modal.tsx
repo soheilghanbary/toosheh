@@ -6,7 +6,7 @@ import { TextField } from 'shared/components/ui/text-field'
 import { toast } from 'sonner'
 
 export const SuccessModal = ({ code }: { code: string }) => {
-  const shareLink = `https://toosheh.vercel.app/?code=${code}`
+  const shareLink = `${process.env.NEXT_PUBLIC_URL}/?code=${code}`
 
   const handleShare = async () => {
     await navigator.share({
