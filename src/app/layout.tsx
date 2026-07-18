@@ -32,11 +32,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body className={`${font.className} antialiased`}>
         <Providers>
-          <main className="mx-auto min-h-dvh max-w-4xl px-4 pb-4">
+          <main className="flex h-dvh flex-col">
             <Navbar />
-            <main>{children}</main>
+            <main className="container w-full flex-1 p-4">{children}</main>
+            <Footer />
           </main>
-          <Footer />
         </Providers>
       </body>
     </html>

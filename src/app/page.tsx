@@ -37,10 +37,10 @@ export default function Page() {
                 دریافت
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="send">
+            <TabsContent value="send" className="animate-page-up">
               <ClipboardForm />
             </TabsContent>
-            <TabsContent value="receive">
+            <TabsContent value="receive" className="animate-page-up">
               <TrackForm />
             </TabsContent>
           </Tabs>

@@ -4,7 +4,7 @@ import { ModeToggle } from 'shared/components/mode-toggle'
 
 export const Navbar = () => {
   return (
-    <header className="flex items-center justify-between py-4">
+    <header className="container flex items-center justify-between p-4">
       <Link
         href="/"
         className="text-primary text-xl tracking-tight dark:text-foreground"

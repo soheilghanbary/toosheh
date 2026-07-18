@@ -9,12 +9,7 @@ export default function Providers({ children }: PropsWithChildren) {
   return (
     <NuqsAdapter>
       <QueryProvider>
-        <ThemeProvider
-          enableColorScheme
-          attribute="class"
-          defaultTheme="light"
-          disableTransitionOnChange
-        >
+        <ThemeProvider enableColorScheme attribute="class" defaultTheme="light">
           {children}
           <ToastProvider />
         </ThemeProvider>
